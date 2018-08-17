@@ -1,0 +1,22 @@
+{
+  "name": "js13k2018",
+  "version": "0.0.1",
+  "description": "my entry for the #js13k 2018",
+  "main": "index.js",
+  "scripts": {
+    "concat": "./scripts/concat.sh > dist/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agar3s/js13k2018.git"
+  },
+  "keywords": [
+    "js13k"
+  ],
+  "author": "agar3s",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agar3s/js13k2018/issues"
+  },
+  "homepage": "https://github.com/agar3s/js13k2018#readme"
+}
