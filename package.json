@@ -4,11 +4,14 @@
   "description": "my entry for the #js13k 2018",
   "main": "index.js",
   "scripts": {
-    "concat": "./scripts/concat.sh > dist/build.js",
+    "concat": "./scripts/concat.sh > dist/build.js > target/b.js",
     "clean": "rm target.zip; rm -rf dist/; rm -rf target/; mkdir -p dist target",
+    "compileglsl": "./scripts/compileglsfiles.sh src/shaders dist",
     "minify": "npx google-closure-compiler --compilation_level=ADVANCED_OPTIMIZATIONS --js=dist/build.js --js_output_file=dist/build.min.js",
     "gen": "cp src/index.html target/index.html && cp dist/build.min.js target/b.js",
     "zip": "cd target; zip -r ../target.zip .; cd ..; wc -c target.zip",
+    "nominify": "cp dist/build.js dist/build.min.js",
+    "build-nominify": "npm run clean && npm run compileglsl && npm run concat && npm run nominify && npm run gen",
     "build": "export NODE_ENV=production; npm run clean && npm run concat && npm run minify && npm run gen && npm run zip",
     "watch": "nodemon -e js,sh --watch src --watch scripts --exec npm run concat",
     "liveserver": "mkdir -p target; cd target; live-server --no-browser",
@@ -28,6 +31,7 @@
   },
   "homepage": "https://github.com/agar3s/js13k2018#readme",
   "devDependencies": {
+    "glslmin": "0.0.0",
     "live-server": "^1.2.0",
     "nodemon": "^1.18.3"
   },

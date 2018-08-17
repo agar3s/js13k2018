@@ -4,9 +4,23 @@
 echo "// larga vida al #js13k! "
 # pre
 cat src/pre.js
+echo "const DEBUG=false;"
+
+# libs
+cat lib/webgl.js
+
+# shaders
+cd dist;
+for glsl in *.frag *.vert; do
+  name=`echo $glsl | tr '.' '_' | tr '[:lower:]' '[:upper:]'`
+  cat $glsl | ../scripts/wrapjs.sh $name
+  echo
+done
+cd ..;
 
 # game
 cat src/player.js
 cat src/canvasRenderer.js
+cat src/webglRenderer.js
 cat src/gameloop.js
 cat src/post.js

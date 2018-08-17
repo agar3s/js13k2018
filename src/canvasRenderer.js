@@ -1,7 +1,10 @@
 // src/canvasRenderer.js >>>
 
-var canvas = document.getElementById('c');
-var graphics = canvas.getContext('2d');
+var graphics = c.getContext('2d');
 
-graphics.fillStyle = '#00ff00';
-graphics.fillRect(0, 0, 50, 50);
+function draw() {
+  graphics.clearRect(0, 0, 320, 240);
+  player.draw(graphics);
+}
+
+// ending file
