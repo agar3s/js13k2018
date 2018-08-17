@@ -10,4 +10,4 @@ function Sprite() {
   }
 }
 
-var player = new Sprite();
+var player = Sprite();

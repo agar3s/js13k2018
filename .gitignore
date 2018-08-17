@@ -63,4 +63,4 @@ typings/
 # skip dist files
 dist
 package-lock.json
-target/build.js
+target*
