@@ -6,7 +6,6 @@ function Sprite() {
     x: x,
     setX: function(newX) {
       this.x = newX;
-      console.log('player.x ahora es ', this.x);
     }
   }
 }

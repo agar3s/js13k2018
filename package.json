@@ -4,7 +4,10 @@
   "description": "my entry for the #js13k 2018",
   "main": "index.js",
   "scripts": {
-    "concat": "./scripts/concat.sh > dist/build.js"
+    "concat": "./scripts/concat.sh > target/build.js",
+    "watch": "nodemon -e js,sh --watch src --watch scripts --exec npm run concat",
+    "liveserver": "mkdir -p target; cd target; live-server --no-browser",
+    "start": "npm run watch & npm run liveserver"
   },
   "repository": {
     "type": "git",
@@ -18,5 +21,9 @@
   "bugs": {
     "url": "https://github.com/agar3s/js13k2018/issues"
   },
-  "homepage": "https://github.com/agar3s/js13k2018#readme"
+  "homepage": "https://github.com/agar3s/js13k2018#readme",
+  "devDependencies": {
+    "live-server": "^1.2.0",
+    "nodemon": "^1.18.3"
+  }
 }
