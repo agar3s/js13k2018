@@ -10,6 +10,12 @@ function draw() {
   playerB.draw(graphics);
   playerC.draw(graphics);
   playerD.draw(graphics);
+
+  graphics.fillStyle = '#ffffff';
+  for (var i = 0; i < points.length; i++) {
+    var coords = points[i];
+    graphics.fillRect(coords[0]*3 + 5, coords[1]*3 + 5, 3, 3);
+  }
 }
 
 // ending file

@@ -7,6 +7,7 @@ cat src/pre.js
 echo "const DEBUG=false;"
 
 # definitions
+cat src/spriteLoader.js
 cat src/definitions.js
 
 # libs
