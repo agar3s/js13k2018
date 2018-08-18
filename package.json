@@ -14,7 +14,7 @@
     "build-nominify": "npm run clean && npm run compileglsl && npm run concat && npm run nominify && npm run gen",
     "build-nominify-purejs": "npm run clean && npm run concat && npm run nominify && npm run gen",
     "build": "export NODE_ENV=production; npm run clean && npm run concat && npm run minify && npm run gen && npm run zip",
-    "watch": "nodemon -e js,sh --watch src --watch scripts --exec npm run build-nominify-purejs;",
+    "watch": "nodemon -e js,sh --watch src --watch scripts --exec npm run build-nominify;",
     "concat": "./scripts/concat.sh > dist/build.js && cp dist/build.js target/b.js",
     "liveserver": "mkdir -p target; cd target; live-server --no-browser",
     "start": "npm run watch & npm run liveserver",
