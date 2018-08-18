@@ -6,6 +6,9 @@ echo "// larga vida al #js13k! "
 cat src/pre.js
 echo "const DEBUG=false;"
 
+# definitions
+cat src/definitions.js
+
 # libs
 cat lib/webgl.js
 
@@ -22,5 +25,6 @@ cd ..;
 cat src/player.js
 cat src/canvasRenderer.js
 cat src/webglRenderer.js
+cat src/effects.js
 cat src/gameloop.js
 cat src/post.js

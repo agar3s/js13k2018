@@ -2,9 +2,9 @@
 
 function Sprite() {
   return {
-    x: 0,
+    x: 220,
     y: 120,
-    speed: 200,
+    speed: 100,
     direction: 1,
     color: '#ff0000',
     moveX: function(dt) {
@@ -14,10 +14,22 @@ function Sprite() {
     },
     draw: function(graphics) {
       graphics.fillStyle = this.color;
-      graphics.fillRect(this.x, this.y, 15, 15);
+      graphics.fillRect(this.x, this.y, 30, 30);
     }
   }
 }
 
 var player = Sprite();
+var playerB = Sprite();
+playerB.color = '#00ff00';
+playerB.y -= 50;
+playerB.speed *= 1.2;
+var playerC = Sprite();
+playerC.color = '#0000ff';
+playerC.y += 50;
+playerC.speed *= 1.4;
+var playerD = Sprite();
+playerD.color = '#ffffff';
+playerD.y = 10;
+playerD.speed *= 1.6;
 
