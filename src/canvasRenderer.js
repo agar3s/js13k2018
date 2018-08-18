@@ -2,6 +2,9 @@
 
 var graphics = c.getContext('2d');
 
+var animationIndex = 0;
+var animationLength = 7;
+
 function draw() {
   graphics.clearRect(0, 0, 320, 240);
   graphics.fillStyle = '#000';
@@ -12,9 +15,15 @@ function draw() {
   playerD.draw(graphics);
 
   graphics.fillStyle = '#ffffff';
-  for (var i = 0; i < points.length; i++) {
-    var coords = points[i];
-    graphics.fillRect(coords[0]*3 + 5, coords[1]*3 + 5, 3, 3);
+  if(frames.length>0){
+    var animIndex = ~~animationIndex;
+    for (var i = 0; i < frames[animIndex].length; i++) {
+      var coords = frames[animIndex][i];
+      graphics.fillRect(coords[0]*3 + 5+animIndex*0, coords[1]*3 + 5, 3, 3);
+    }
+
+    animationIndex+=0.2;
+    if(animationIndex>=animationLength)animationIndex=0;
   }
 }
 
