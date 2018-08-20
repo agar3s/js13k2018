@@ -42,10 +42,6 @@ function processFile(name, rawSprite){
   var indexOfAnimation = rawSprite.indexOf('\nAnimation:\n');
   var frames = rawSprite.substring(0, indexOfAnimation).split('//new Frame');
   var animations = rawSprite.substring(indexOfAnimation+12).split(',');
-
-  console.log('frames', frames);
-  console.log('animations', animations);
-
   
   return processSprite(name, copyArray(frames), animations);
 };
@@ -69,7 +65,7 @@ function processSprite(name, frames, animations){
     fullAnimation = fullAnimation.concat([...data]).concat([0x01]);
   });
   fullAnimation.splice(fullAnimation.length-1, 1);
-  saveSprite(name.replace('.sprite', ''), fullAnimation);
+  saveSprite(name.replace('.sprite', '.bs'), fullAnimation);
 
   return {
     name: name.replace('.sprite', ''),
@@ -107,7 +103,6 @@ function buildDiffArray(encodedFrames, animations){
   };
   // starting frame
   diffArray.push(arrangedFrames[0]);
-  console.log(arrangedFrames[0]);
   for (var j = 1; j < arrangedFrames.length; j++) {
     var diffElement = [];
     for (var k = arrangedFrames[j].length - 1; k >= 0; k--) {

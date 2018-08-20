@@ -3,7 +3,8 @@
 var graphics = c.getContext('2d');
 
 var animationIndex = 0;
-var animationLength = 7;
+var animationLength = 0;
+var pixelSize = 2;
 
 function draw() {
   graphics.clearRect(0, 0, 320, 240);
@@ -19,10 +20,10 @@ function draw() {
     var animIndex = ~~animationIndex;
     for (var i = 0; i < frames[animIndex].length; i++) {
       var coords = frames[animIndex][i];
-      graphics.fillRect(coords[0]*3 + 5+animIndex*0, coords[1]*3 + 5, 3, 3);
+      graphics.fillRect(coords[0]*pixelSize + 5+animIndex*0, coords[1]*pixelSize + 5, pixelSize, pixelSize);
     }
 
-    animationIndex+=0.2;
+    animationIndex+=0.5;
     if(animationIndex>=animationLength)animationIndex=0;
   }
 }
