@@ -47,10 +47,14 @@ function processFile(name, rawSprite){
 };
 
 function saveSprite(name, byteArray){
-  var wstream = fs.createWriteStream('./assets/'+name);
-  var buffer = new Buffer(byteArray);
-  wstream.write(buffer);
-  wstream.end();
+  fs.writeFile('./assets/'+name, byteArray.join(''), function (err){
+    if(err){
+      console.log('exception:', err);
+      return;
+    }
+    console.log('file created');
+  });
+  
 }
 
 function processSprite(name, frames, animations){
@@ -62,7 +66,8 @@ function processSprite(name, frames, animations){
   
   var fullAnimation = [];
   animres.forEach(function(data){
-    fullAnimation = fullAnimation.concat([...data]).concat([0x01]);
+    console.log(data)
+    fullAnimation = fullAnimation.concat([...data]).concat(['01']);
   });
   fullAnimation.splice(fullAnimation.length-1, 1);
   saveSprite(name.replace('.sprite', '.bs'), fullAnimation);
@@ -83,7 +88,11 @@ function encodeFrame(frame){
     if(character==='M'){
       var x = (i%cols);
       var y = ~~(i/rows);
-      byteArray.push((y<<4)+x);
+      //encode the value as an hexadecimal code 
+      // yx
+      var code = ((y<<4)+x).toString(16);
+      if(code.length==1) code = `0${code}`
+      byteArray.push(code);
     }
     if(character==='/'){
       break;

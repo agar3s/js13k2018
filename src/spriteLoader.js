@@ -1,16 +1,18 @@
 var req = new XMLHttpRequest();
-req.open('GET', './ninja_dead_animation.bs', true);
-req.responseType = 'arraybuffer';
+//req.open('GET', './ninja_dead_animation.bs');
+req.open('GET', './ninja_run_animation.bs');
+//req.responseType = 'arraybuffer';
 
 var frames = [];
 var previousFrame = [];
 req.onload = function (event) {
   var arrayBuffer = req.response;
+  console.log(arrayBuffer.toString())
   if (arrayBuffer) {
-    var byteArray = new Uint8Array(arrayBuffer);
+    
     var frame = []
-    for (var i = 0; i < byteArray.byteLength; i++) {
-      var dataByte = byteArray[i];
+    for (var i = 0; i < arrayBuffer.length; i+=2) {
+      var dataByte = parseInt(arrayBuffer[i]+arrayBuffer[i+1], 16);
       if (dataByte==1) {
         frames.push(JSON.parse(JSON.stringify(frame)));
         previousFrame = frame;
