@@ -66,7 +66,6 @@ function processSprite(name, frames, animations){
   
   var fullAnimation = [];
   animres.forEach(function(data){
-    console.log(data)
     fullAnimation = fullAnimation.concat([...data]).concat(['01']);
   });
   fullAnimation.splice(fullAnimation.length-1, 1);
@@ -134,12 +133,14 @@ function joinSprites (sprites) {
   var frames = [''];
   var animations = {};
 
-  var code = '';
+  var code = '// src/generatedSprites.js \n// sprites generated with npm run build-sprites\n';
+  var lastCode = [];
   for (var i = 0; i < sprites.length; i++) {
     var sprite = sprites[i];
     code += `\nvar ${sprite.name} = '${sprite.frames.join('')}';`
+    lastCode.push(sprite.name);
   };
-  code+='\n';
+  code+=`\nvar animations = [${lastCode}];\n`;
 
   return code;
 }

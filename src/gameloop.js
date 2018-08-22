@@ -5,10 +5,8 @@ function loop(time) {
   var dt = time - timeEnd;
   var refreshRatio = dt/1000;
   timeEnd = time;
-  player.moveX(refreshRatio);
-  playerB.moveX(refreshRatio);
-  playerC.moveX(refreshRatio);
-  playerD.moveX(refreshRatio);
+  otherNinja.update(refreshRatio);
+  otherNinja2.update(refreshRatio);
   draw();
   drawPostProcessing(~~(time));
   requestAnimationFrame(loop);

@@ -24,6 +24,7 @@ cd ..;
 # game
 cat src/generatedSprites.js
 cat src/spriteLoader.js
+cat src/gameObject.js
 cat src/player.js
 cat src/canvasRenderer.js
 cat src/webglRenderer.js
