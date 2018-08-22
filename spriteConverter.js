@@ -13,11 +13,11 @@ function main(cb){
       if(filename.indexOf('.sprite') === -1) return;
       var file = fs.readFileSync(dir+'/'+filename, 'utf-8');
       var res = processFile(filename, file);
-      //sprites = sprites.concat(processFile(filename, file));
+      sprites.push(res);
     });
 
-    //var result = joinSprites(sprites);
-    return cb('nothing yet');
+    var result = joinSprites(sprites);
+    return cb(result);
   });
 };
 
@@ -70,12 +70,11 @@ function processSprite(name, frames, animations){
     fullAnimation = fullAnimation.concat([...data]).concat(['01']);
   });
   fullAnimation.splice(fullAnimation.length-1, 1);
-  saveSprite(name.replace('.sprite', '.bs'), fullAnimation);
+  //saveSprite(name.replace('.sprite', '.bs'), fullAnimation);
 
   return {
     name: name.replace('.sprite', ''),
-    key: frames[0],
-    frames: animres
+    frames: fullAnimation
   };
 }
 
@@ -130,66 +129,21 @@ function buildDiffArray(encodedFrames, animations){
 };
 
 
-function joinSprites(sprites){
+function joinSprites (sprites) {
   var keyFrames = {};
   var frames = [''];
   var animations = {};
 
+  var code = '';
   for (var i = 0; i < sprites.length; i++) {
     var sprite = sprites[i];
-    if(!keyFrames[sprite.key]){
-      keyFrames[sprite.key] = sprite.name;
-    };
-    var kf = sprite.name;
-    var f = [];
-    for (var j = 0; j < sprite.frames.length; j++) {
-      var nFrame = sprite.frames[j];
-      var index = frames.indexOf(nFrame);
-      
-      if(index==-1){
-        frames.push(nFrame);
-        index = frames.length - 1;
-      }
-      f.push(index);
-    };
-
-    animations[sprite.name] = {
-      kf: keyFrames[sprite.key],
-      f: f
-    }
+    code += `\nvar ${sprite.name} = '${sprite.frames.join('')}';`
   };
+  code+='\n';
 
-  return asTemplate(keyFrames, frames, animations);
+  return code;
 }
 
-function asTemplate(keyFrames, frames, animations){
-  var variablesAsCode = '';
-  var keyCodes = Object.keys(keyFrames);
-  for (var i = 0; i < keyCodes.length; i++) {
-    var value = keyCodes[i];
-    var name = keyFrames[value];
-    variablesAsCode+= "var "+name+" = '"+ value.replace(/\\/g, "\\\\").replace(/'/g, "\\'")+"';\n"
-  };
-  var framesAsCode = 'var frames = [\n';
-  for (var i = 0; i < frames.length; i++) {
-    framesAsCode += "  '"+frames[i].replace(/\\/g, "\\\\").replace(/'/g, "\\'")+"', // "+i+'\n'
-  };
-  framesAsCode += '];\n';
-
-  var animationsAsCode = 'var animations = {\n'
-  var animationKeys = Object.keys(animations);
-  for (var i = 0; i < animationKeys.length; i++) {
-    var key = animationKeys[i];
-    var value = animations[key];
-    animationsAsCode += '  ' + key + ': {\n';
-    animationsAsCode += '    kf: ' + value.kf + ',\n';
-    animationsAsCode += '    f: [' + value.f + ']\n';
-    animationsAsCode += '  },\n';
-  };
-  animationsAsCode += '};'
-
-  return variablesAsCode + '\n' + framesAsCode + '\n' + animationsAsCode;
-}
 
 main(function(script){
   fs.writeFile('./src/generatedSprites.js', script, function(err){

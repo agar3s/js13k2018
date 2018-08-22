@@ -7,7 +7,6 @@ cat src/pre.js
 echo "const DEBUG=false;"
 
 # definitions
-cat src/spriteLoader.js
 cat src/definitions.js
 
 # libs
@@ -23,6 +22,8 @@ done
 cd ..;
 
 # game
+cat src/generatedSprites.js
+cat src/spriteLoader.js
 cat src/player.js
 cat src/canvasRenderer.js
 cat src/webglRenderer.js

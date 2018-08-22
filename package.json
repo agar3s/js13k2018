@@ -4,7 +4,7 @@
   "description": "my entry for the #js13k 2018",
   "main": "index.js",
   "scripts": {
-    "concat": "./scripts/concat.sh > dist/build.js && cp dist/build.js target/b.js && cp assets/*.bs target/",
+    "concat": "./scripts/concat.sh > dist/build.js && cp dist/build.js target/b.js",
     "clean": "rm target.zip; rm -rf dist/; rm -rf target/; mkdir -p dist target",
     "compileglsl": "./scripts/compileglsfiles.sh src/shaders dist",
     "minify": "npx google-closure-compiler --compilation_level=ADVANCED_OPTIMIZATIONS --js=dist/build.js --js_output_file=dist/build.min.js",
@@ -20,7 +20,7 @@
 
     "build-sprites": "node ./spriteConverter.js",
     
-    "concatlite": "./scripts/concat.sh > target/b.js && cp src/index.html target/index.html && cp assets/*.bs target/",
+    "concatlite": "./scripts/concat.sh > target/b.js && cp src/index.html target/index.html",
     "watchlite": "nodemon -e js,sh,html --watch src --watch scripts --exec npm run concatlite",
     "lite": "npm run watchlite & npm run liveserver"
   },
