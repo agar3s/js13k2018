@@ -16,6 +16,9 @@ function draw() {
 
   otherNinja.draw();
   otherNinja2.draw();
+  otherNinja3.draw();
+  otherNinja4.draw();
+  otherNinja5.draw();
 }
 
 // ending file

@@ -41,6 +41,9 @@ function Sprite(props) {
   }
 }
 
-var otherNinja = Sprite([120, 80, 0, '#f6f']);
+var otherNinja = Sprite([120, 80, 1, '#f6f']);
 var otherNinja2 = Sprite([200, 50, 0, '#6ff']);
+var otherNinja3 = Sprite([60, 30, 2, '#994']);
+var otherNinja4 = Sprite([20, 140, 3, '#f64']);
+var otherNinja5 = Sprite([160, 140, 4, '#66f']);
 
