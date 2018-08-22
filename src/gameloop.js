@@ -1,6 +1,6 @@
 // src/gameLoop.js >>>
 
-var timeEnd = 0
+var timeEnd = 0;
 function loop(time) {
   var dt = time - timeEnd;
   var refreshRatio = dt/1000;
@@ -10,6 +10,14 @@ function loop(time) {
   otherNinja3.update(refreshRatio);
   otherNinja4.update(refreshRatio);
   otherNinja5.update(refreshRatio);
+
+  if(keyMap&keys['65']) {
+    otherNinja.x -= 45*refreshRatio;
+  }
+  if(keyMap&keys['68']) {
+    otherNinja.x += 45*refreshRatio;
+  }
+
   draw();
   drawPostProcessing(~~(time));
   requestAnimationFrame(loop);

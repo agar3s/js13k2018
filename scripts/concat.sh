@@ -11,6 +11,7 @@ cat src/definitions.js
 
 # libs
 cat lib/webgl.js
+cat lib/keyboardController.js
 
 # shaders
 cd dist;
