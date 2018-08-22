@@ -11,10 +11,10 @@ function loop(time) {
   otherNinja4.update(refreshRatio);
   otherNinja5.update(refreshRatio);
 
-  if(keyMap&keys['65']) {
+  if(keyMap&keys[inputs.LEFT]) {
     otherNinja.x -= 45*refreshRatio;
   }
-  if(keyMap&keys['68']) {
+  if(keyMap&keys[inputs.RIGHT]) {
     otherNinja.x += 45*refreshRatio;
   }
 
