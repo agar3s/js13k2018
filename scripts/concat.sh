@@ -10,6 +10,9 @@ echo "const DEBUG=false;"
 cat src/definitions.js
 
 # libs
+cat lib/utils.js
+cat lib/jsfxr.js
+cat lib/audio.js
 cat lib/webgl.js
 cat lib/keyboardController.js
 
@@ -26,6 +29,8 @@ cd ..;
 cat src/generatedSprites.js
 cat src/spriteLoader.js
 cat src/gameObject.js
+cat src/sounds.js
+
 cat src/player.js
 cat src/canvasRenderer.js
 cat src/webglRenderer.js
