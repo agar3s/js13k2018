@@ -13,8 +13,7 @@ function draw() {
   graphics.fillRect(0, 0, 320, 240);
   graphics.restore();
   
-  mainScene.draw();
-  secondScene.draw();
+  sceneManager.draw();
 }
 
 // ending file

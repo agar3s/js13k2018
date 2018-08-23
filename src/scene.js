@@ -1,8 +1,22 @@
 // src/scene.js
 // should display different objects in screen, like scenes in phaser
 
+var sceneManager = {
+  scenes: [],
+  update: function(dt) {
+    for (var i = 0; i < this.scenes.length; i++) {
+      this.scenes[i].update(dt);
+    }
+  },
+  draw: function() {
+    for (var i = 0; i < this.scenes.length; i++) {
+      this.scenes[i].draw();
+    }
+  }
+};
+
 function Scene (props) {
-  return {
+  var scene = {
     active: true,
     children: [],
     add: function(gameObject) {
@@ -20,5 +34,8 @@ function Scene (props) {
         this.children[i].draw();
       }
     }
-  } 
+  };
+  sceneManager.scenes.push(scene);
+  return scene;
 }
+

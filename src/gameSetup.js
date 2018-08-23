@@ -22,18 +22,3 @@ something.update = function(dt) {
 }
 secondScene.add(something);
 
-setTimeout(function(){
-  mainScene.active = false;
-}, 3000);
-
-setTimeout(function(){
-  secondScene.active = false;
-}, 4000);
-
-setTimeout(function(){
-  mainScene.active = true;
-}, 4500);
-
-setTimeout(function(){
-  secondScene.active = true;
-}, 6000);
