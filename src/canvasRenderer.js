@@ -13,12 +13,8 @@ function draw() {
   graphics.fillRect(0, 0, 320, 240);
   graphics.restore();
   
-
-  otherNinja.draw();
-  otherNinja2.draw();
-  otherNinja3.draw();
-  otherNinja4.draw();
-  otherNinja5.draw();
+  mainScene.draw();
+  secondScene.draw();
 }
 
 // ending file
