@@ -3,6 +3,10 @@
 
 var sceneManager = {
   scenes: [],
+  add: function(scene) {
+    scene.create();
+    this.scenes.push(scene);
+  },
   update: function(dt) {
     for (var i = 0; i < this.scenes.length; i++) {
       this.scenes[i].update(dt);
@@ -19,6 +23,7 @@ function Scene (props) {
   var scene = {
     active: true,
     children: [],
+    create: function(){},
     add: function(gameObject) {
       this.children.push(gameObject);
     },
@@ -35,7 +40,6 @@ function Scene (props) {
       }
     }
   };
-  sceneManager.scenes.push(scene);
   return scene;
 }
 
