@@ -18,17 +18,27 @@ function Sprite(props) {
     color: props[3],
     animIndex: 0,
     pixelSize: 5,
-    update: function(dt) {
-      this.animIndex += dt*15;
+    orientation: 1, // right
+    updateFrame: function (dt) {
+      this.animIndex += dt*20;
       if (this.animIndex >= this.animation.length) {
         this.animIndex = 0;
       }
+    },
+    updateData: function(dt) {},
+    update: function(dt) {
+      this.updateData(dt);
+      this.updateFrame(dt);
     },
     drawFrame: function() {
       var animationIndex = ~~(this.animIndex);
       for (var i = 0; i < this.animation[animationIndex].length; i++) {
         var coords = this.animation[animationIndex][i];
-        graphics.fillRect(coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
+        if(this.orientation == 1){
+          graphics.fillRect(coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
+        }else{
+          graphics.fillRect(14*this.pixelSize - coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
+        }
       }      
     },
     draw: function() {
@@ -40,10 +50,4 @@ function Sprite(props) {
     }
   }
 }
-
-var otherNinja = Sprite([120, 80, 1, '#f6f']);
-var otherNinja2 = Sprite([200, 50, 0, '#6ff']);
-var otherNinja3 = Sprite([60, 30, 2, '#994']);
-var otherNinja4 = Sprite([20, 140, 3, '#f64']);
-var otherNinja5 = Sprite([160, 140, 4, '#66f']);
 

@@ -83,7 +83,7 @@ function encodeFrame(frame){
   var data = frame.replace(/\n/g, '');
   for (var i = 0; i < data.length; i++) {
     var character = data[i];
-    if(character==='M'){
+    if(character==='M' || character==='C'){
       var x = (i%cols);
       var y = ~~(i/rows);
       //encode the value as an hexadecimal code 

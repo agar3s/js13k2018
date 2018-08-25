@@ -20,7 +20,7 @@
 
     "build-sprites": "node ./spriteConverter.js",
     
-    "concatlite": "./scripts/concat.sh > target/b.js && cp src/index.html target/index.html",
+    "concatlite": "./scripts/concat.sh > dist/build.js && cp dist/build.js target/b.js",
     "watchlite": "nodemon -e js,sh,html --watch src --watch scripts --exec npm run concatlite",
     "lite": "npm run watchlite & npm run liveserver"
   },
