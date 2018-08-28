@@ -34,6 +34,11 @@ function Sprite(props) {
       var animationIndex = ~~(this.animIndex);
       for (var i = 0; i < this.animation[animationIndex].length; i++) {
         var coords = this.animation[animationIndex][i];
+        if(coords[2]){
+          graphics.fillStyle = '#f00'
+        }else{
+          graphics.fillStyle = this.color
+        }
         if(this.orientation == 1){
           graphics.fillRect(coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
         }else{

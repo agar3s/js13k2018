@@ -65,7 +65,12 @@ function processSprite(name, frames, animations){
   var animres = buildDiffArray(frames, animations);
   
   var fullAnimation = [];
-  animres.forEach(function(data){
+  animres.main.forEach(function(data){
+    fullAnimation = fullAnimation.concat([...data]).concat(['01']);
+  });
+  fullAnimation.splice(fullAnimation.length-1, 1);
+  fullAnimation = fullAnimation.concat(['02'])
+  animres.collision.forEach(function(data){
     fullAnimation = fullAnimation.concat([...data]).concat(['01']);
   });
   fullAnimation.splice(fullAnimation.length-1, 1);
@@ -78,7 +83,8 @@ function processSprite(name, frames, animations){
 }
 
 function encodeFrame(frame){
-  var byteArray = [];
+  var mainFrameByteArray = [];
+  var collisionFrameByteArray = [];
   var encoded = '';
   var data = frame.replace(/\n/g, '');
   for (var i = 0; i < data.length; i++) {
@@ -90,7 +96,12 @@ function encodeFrame(frame){
       // yx
       var code = ((y<<4)+x).toString(16);
       if(code.length==1) code = `0${code}`
-      byteArray.push(code);
+
+      if(character==='M') {
+        mainFrameByteArray.push(code);
+      }else {
+        collisionFrameByteArray.push(code);
+      }
     }
     if(character==='/'){
       break;
@@ -98,33 +109,58 @@ function encodeFrame(frame){
   };
   
 
-  return byteArray;
+  return {
+    main: mainFrameByteArray,
+    collision: collisionFrameByteArray
+  }
 
 };
 
 function buildDiffArray(encodedFrames, animations){
-  var diffArray = [];
-  var arrangedFrames = [];
+  var diffMainArray = [];
+  var diffCollisionArray = [];
+  var arrangedMainFrames = [];
+  var arrangedCollisionFrames = [];
+  console.log(encodedFrames)
   for (var i = 0; i < animations.length; i++) {
-    arrangedFrames.push(encodedFrames[animations[i]]);
+    arrangedMainFrames.push(encodedFrames[animations[i]].main);
+    arrangedCollisionFrames.push(encodedFrames[animations[i]].collision);
   };
   // starting frame
-  diffArray.push(arrangedFrames[0]);
-  for (var j = 1; j < arrangedFrames.length; j++) {
-    var diffElement = [];
-    for (var k = arrangedFrames[j].length - 1; k >= 0; k--) {
-      if(arrangedFrames[j-1].indexOf(arrangedFrames[j][k])==-1){
-        diffElement.push(arrangedFrames[j][k]);
+  diffMainArray.push(arrangedMainFrames[0]);
+  diffCollisionArray.push(arrangedCollisionFrames[0]);
+  for (var j = 1; j < arrangedMainFrames.length; j++) {
+    var diffMainElement = [];
+    var diffCollisionElement = [];
+    for (var k = arrangedMainFrames[j].length - 1; k >= 0; k--) {
+      if(arrangedMainFrames[j-1].indexOf(arrangedMainFrames[j][k])==-1){
+        diffMainElement.push(arrangedMainFrames[j][k]);
       }
     };
-    for (var k = arrangedFrames[j-1].length - 1; k >= 0; k--) {
-      if(arrangedFrames[j].indexOf(arrangedFrames[j-1][k])==-1){
-        diffElement.push(arrangedFrames[j-1][k]);
+    for (var k = arrangedMainFrames[j-1].length - 1; k >= 0; k--) {
+      if(arrangedMainFrames[j].indexOf(arrangedMainFrames[j-1][k])==-1){
+        diffMainElement.push(arrangedMainFrames[j-1][k]);
       }
     };
-    diffArray.push(diffElement);
+    // check collider frames
+    for (var k = arrangedCollisionFrames[j].length - 1; k >= 0; k--) {
+      if(arrangedCollisionFrames[j-1].indexOf(arrangedCollisionFrames[j][k])==-1){
+        diffCollisionElement.push(arrangedCollisionFrames[j][k]);
+      }
+    };
+    for (var k = arrangedCollisionFrames[j-1].length - 1; k >= 0; k--) {
+      if(arrangedCollisionFrames[j].indexOf(arrangedCollisionFrames[j-1][k])==-1){
+        diffCollisionElement.push(arrangedCollisionFrames[j-1][k]);
+      }
+    };
+
+    diffMainArray.push(diffMainElement);
+    diffCollisionArray.push(diffCollisionElement);
   };
-  return diffArray;
+  return {
+    main: diffMainArray,
+    collision: diffCollisionArray
+  };
 };
 
 
