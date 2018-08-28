@@ -60,8 +60,6 @@ function animationLoader (animationData) {
     }
   }
 
-  console.log(colliderFrames)
-
   for (var i = 0; i < colliderFrames.length; i++) {
     for (var j = 0; j < colliderFrames[i].length; j++) {
       var dataByte = colliderFrames[i][j];

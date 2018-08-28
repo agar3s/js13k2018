@@ -74,7 +74,6 @@ function processSprite(name, frames, animations){
     fullAnimation = fullAnimation.concat([...data]).concat(['01']);
   });
   fullAnimation.splice(fullAnimation.length-1, 1);
-  //saveSprite(name.replace('.sprite', '.bs'), fullAnimation);
 
   return {
     name: name.replace('.sprite', ''),
