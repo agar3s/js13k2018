@@ -25,10 +25,15 @@ function Sprite(props) {
     animIndex: 0,
     pixelSize: 5,
     orientation: 1, // right
+    animationEnds: function(){
+      this.animation = animations[0];
+      this.status = 'idle';
+    },
     updateFrame: function (dt) {
       this.animIndex += dt*20;
       if (this.animIndex >= this.animation.length) {
         this.animIndex = 0;
+        this.animationEnds();
       }
       this.frame = this.animation[~~(this.animIndex)];
     },

@@ -3,6 +3,8 @@
 
 var player = Sprite([10, 120, 0, '#226']);
 player.speed = 120;
+player.nextPunch = 0;
+var punchs = [2,3,4];
 
 player.updateData = function(dt){
   if(keyMap&keys[inputs.LEFT]) {
@@ -19,8 +21,7 @@ player.updateData = function(dt){
     this.orientation ^= 1;
   }
   if(keyMap&keys[inputs.PUNCH]) {
-    this.animation = animations[3];
-    this.animIndex = 0;
+    this.punch();
   }
   if(keyMap&keys[inputs.KICK]) {
     this.animation = animations[1];
@@ -32,3 +33,13 @@ player.updateData = function(dt){
   }
 };
 
+player.punch = function() {
+  if(this.status === 'punching') return;
+  this.status = 'punching';
+  this.animation = animations[punchs[this.nextPunch]];
+  this.nextPunch++;
+  console.log(punchs.length)
+  if(this.nextPunch==punchs.length) this.nextPunch = 0
+
+  this.animIndex = 0;
+}
