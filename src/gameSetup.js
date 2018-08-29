@@ -1,8 +1,8 @@
 
 var mainScene = Scene({});
 mainScene.create = function(){
-  this.add(Sprite([120, 120, 1, '#f6f']));
-  this.add(Sprite([200, 120, 0, '#6ff']));
+  this.add(Sprite([120, 120, 2, '#f6f']));
+  this.add(Sprite([200, 120, 4, '#6ff']));
   this.add(player);
 };
 

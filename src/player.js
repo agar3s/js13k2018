@@ -2,15 +2,17 @@
 
 
 var player = Sprite([10, 120, 0, '#226']);
-player.speed = 80;
+player.speed = 120;
 
 player.updateData = function(dt){
   if(keyMap&keys[inputs.LEFT]) {
-    this.x -= this.speed*dt;
+    this.dx -= this.speed*dt;
+    this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;
     this.orientation = 0;
   }
   if(keyMap&keys[inputs.RIGHT]) {
-    this.x += this.speed*dt;
+    this.dx += this.speed*dt;
+    this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;
     this.orientation = 1;
   }
   if(keyMap&keys[inputs.ENTER]) {

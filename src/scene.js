@@ -26,6 +26,9 @@ function Scene (props) {
     create: function(){},
     add: function(gameObject) {
       this.children.push(gameObject);
+      if(gameObject.type==='sprite'){
+        itemsColliders[gameObject.id] = gameObject;
+      }
     },
     update: function(dt) {
       if(!this.active) return;
