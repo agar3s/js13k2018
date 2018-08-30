@@ -18,7 +18,9 @@ function addPixelToCollisionMatrix(x, y, hitCollide, id) {
       var data = matrixDrawing[key][i];
       var sprite = itemsColliders[data[0]];
       if(data[1]!=1) {
-        sprite.colliding = true;
+        sprite.getDamageOn(y);
+        flash('#100');
+        //sprite.colliding = true;
       }
     }
   }

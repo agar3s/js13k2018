@@ -69,6 +69,16 @@ function Sprite(props) {
       graphics.fillStyle = this.color;
       this.drawFrame();
       graphics.restore();
+    },
+    getDamageOn: function(y) {
+      var impactOnY = (y - this.y)/this.pixelSize;
+      if(impactOnY<=6){
+        // impact on head
+      }else if(impactOnY<=11) {
+        // impact on body
+      }else {
+        // impact on legs
+      }
     }
   }
 }

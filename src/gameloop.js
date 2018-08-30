@@ -6,6 +6,7 @@ function loop(time) {
   var refreshRatio = dt/1000;
   timeEnd = time;
   resetMatrix();
+  updateBackgroud(refreshRatio);
   sceneManager.update(refreshRatio);
   
   draw();

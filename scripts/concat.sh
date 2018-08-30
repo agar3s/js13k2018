@@ -33,6 +33,8 @@ cat src/font.js
 cat src/sounds.js
 cat src/collisionHandler.js
 
+cat src/backgroundEffects.js
+
 cat src/player.js
 cat src/canvasRenderer.js
 cat src/webglRenderer.js
