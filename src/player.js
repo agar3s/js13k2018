@@ -1,7 +1,7 @@
 // src/player.js >>>
 
 
-var player = Character([10, 120, 0, '#226']);
+var player = Character([10, 120, 0, '#9DE']);
 player.speed = 120;
 player.nextPunch = 0;
 var punchs = [2,3,4];

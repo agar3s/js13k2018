@@ -1,0 +1,55 @@
+
+- meter stats
+- hacer que las colisiones solo se validen donde hay sprites de colision activos,
+- manejar estado de personaje
+- acciones del personaje
+	- caminar
+	- correr
+	- saltar
+	- pegar patada
+	- pegar puño
+	- agarrar oponentes
+	- lanzar oponentes
+	- agarrar objetos
+	- golpear con objetos
+	- lanzar objetos
+- juice
+	- combos
+	- power ups al final del nivel?
+	- tiles de fondo bonitos en 1bit
+	- barra de vida
+	- musica frenetica
+	- sonido cuando puño
+	- personajes deben morir
+	
+
+> js13k
+	> colisiones
+	> generar impactos
+	esta es la clave de este juego.
+	SoundBox
+> get
+
+> evil glitch
+> unreal
+
+> phaser boilerplate engine
+
+ahora los sprites pueden tener areas de impacto.
+cabeza 1 - 6
+tronco 7 - 11
+pies?  12 - 16
+
+
+diseño de evil glitch 
+y hacerlo en unity
+
+js13k
+leer el libro de manufacturing consent
+
++- quiero saber si pego arriba, medio o abajo
++- agregar efecto de fondo
++- mostrar una chispita o algo cuando haga hit
++- animar el golpe dependiendo de la ubicacion
++- separate sprite de actor
+

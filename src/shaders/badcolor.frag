@@ -10,20 +10,20 @@ uniform vec3 colors;
 // and colors to display, rgb, rb, rg, gb, r, g, b
 // this glitch requires a black cortain like the one in gameover
 void main (){
-  float rand = 1.5 + sin(time);
+  float rand = 0.5 + sin(time);
   vec4 col = texture2D(tex, uv);
   vec4 col_r = texture2D(tex, uv + vec2((1.5 / dim.x), 0));
   vec4 col_l = texture2D(tex, uv + vec2((2. / dim.x), 0));
   vec4 col_g = texture2D(tex, uv + vec2((-2. / dim.x), 0));
   vec4 col_b = texture2D(tex, uv + vec2((-2.5 / dim.x), 0));
   if(colors.r==1.){
-    col.r = col.r + col_l.r * max(1., sin(uv.y * dim.y * 1.2)) * rand;
+    col.r = col.r + col_l.r * max(1., sin(uv.y * dim.y * 0.2)) * rand;
   }
   if(colors.b==1.){
-   col.b = col.b + col_l.b * max(1., sin(uv.y * dim.y * 1.2)) * rand;
+   col.b = col.b + col_l.b * max(1., sin(uv.y * dim.y * 0.2)) * rand;
   }
   if(colors.g==1.){
-   col.g = col.g + col_g.g * max(1., sin(uv.y * dim.y * 1.2)) * rand;
+   col.g = col.g + col_g.g * max(1., sin(uv.y * dim.y * 0.2)) * rand;
   }
    gl_FragColor.rgba = col.rgba;
 }

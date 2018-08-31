@@ -1,9 +1,9 @@
 
 var mainScene = Scene({});
 mainScene.create = function(){
-  this.add(Character([120, 120, 2, '#f6f']));
-  this.add(Character([160, 80, 4, '#6ff']));
-  this.add(Character([250, 150, 4, '#6ff']));
+  this.add(Character([80, 120, 2, '#f6f']));
+  //this.add(Character([160, 120, 4, '#6ff']));
+  //this.add(Character([250, 120, 4, '#6ff']));
 
   for (var i = 0; i < 0; i++) {
     this.add(Character([(~~(Math.random()*60)*5+10), 120, 4, '#666']));

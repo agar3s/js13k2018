@@ -29,8 +29,8 @@ function animationLoader (animationData) {
   // check frames with collisions
 
   var indexFrame = 0;
-  var previousFrame = [];
-  var frame = [];
+  previousFrame = [];
+  frame = [];
   var colliderFrames = [];
   for (var i = indexCollider; i < animationData.length; i+=2) {
     var dataByte = parseInt(animationData[i]+animationData[i+1], 16);

@@ -80,29 +80,28 @@ function Character(props) {
     color: base.color,
     animIndex: 0,
     pixelSize: 5,
+    hitPoints: 3,
     orientation: 1, // right
     animationEnds: function() {
       this.animation = animations[0];
       this.status = 'idle';
+      this.colliding = false;
     },
     updateFrame: base.updateFrame,
     updateData: base.updateData,
     update: function(dt) {
       this.collided = this.colliding;
-      this.colliding = false;
       this.updateData(dt);
       this.updateFrame(dt);
     },
     drawFrame: function() {
       for (var i = 0; i < this.frame.length; i++) {
         var coords = this.frame[i];
-        if(coords[2]==1){
+        /*if(coords[2]==1){
           graphics.fillStyle = '#f00'
-        } else if(this.collided){
-          graphics.fillStyle = '#ff0'
-        }else{
+        }else{*/
           graphics.fillStyle = this.color
-        }
+        //}
         if(this.orientation == 1){
           graphics.fillRect(coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
           addPixelToCollisionMatrix(this.x + coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, coords[2], this.id);
@@ -114,14 +113,25 @@ function Character(props) {
     },
     draw: base.draw,
     getDamageOn: function(y) {
+      if(this.colliding) return
+      this.colliding = true;
+      this.hitPoints--;
+
       var impactOnY = (y - this.y)/this.pixelSize;
-      if(impactOnY <= 6){
+      var keyFrame = 0;
+      if(this.hitPoints<0) {
+        keyFrame = 7;
+      }else if(impactOnY <= 6){
         // impact on head
+        keyFrame = 5;
       }else if(impactOnY <= 11) {
+        keyFrame = 6;
         // impact on body
       }else {
         // impact on legs
       }
+      this.animation = animations[keyFrame];
+      this.animIndex = 0;
     }
   }
 }
