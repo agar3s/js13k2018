@@ -20,15 +20,11 @@ function Sprite(props) {
     frame: [],
     type: 'sprite',
     animation: animations[props[2]],
-    colliding: false,
     color: props[3],
     animIndex: 0,
     pixelSize: 5,
     orientation: 1, // right
-    animationEnds: function() {
-      this.animation = animations[0];
-      this.status = 'idle';
-    },
+    animationEnds: function() {},
     updateFrame: function (dt) {
       this.animIndex += dt*20;
       if (this.animIndex >= this.animation.length) {
@@ -38,6 +34,59 @@ function Sprite(props) {
       this.frame = this.animation[~~(this.animIndex)];
     },
     updateData: function(dt) {},
+    update: function(dt) {
+      this.updateData(dt);
+      this.updateFrame(dt);
+    },
+    drawFrame: function() {
+      for (var i = 0; i < this.frame.length; i++) {
+        var coords = this.frame[i];
+        if(coords[2]==1){
+          graphics.fillStyle = '#f00'
+        } else if(this.collided){
+          graphics.fillStyle = '#ff0'
+        }else{
+          graphics.fillStyle = this.color
+        }
+        if(this.orientation == 1){
+          graphics.fillRect(coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
+        }else{
+          graphics.fillRect(14*this.pixelSize - coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
+        }
+      }      
+    },
+    draw: function() {
+      graphics.save();
+      graphics.translate(this.x, this.y);
+      graphics.fillStyle = this.color;
+      this.drawFrame();
+      graphics.restore();
+    }
+  }
+}
+
+function Character(props) {
+  var base = Sprite(props);
+  return {
+    x: base.x,
+    y: base.y,
+    dx: base.x,
+    dy: base.y,
+    id: base.id,
+    frame: base.frame,
+    type: 'character',
+    animation: base.animation,
+    colliding: false,
+    color: base.color,
+    animIndex: 0,
+    pixelSize: 5,
+    orientation: 1, // right
+    animationEnds: function() {
+      this.animation = animations[0];
+      this.status = 'idle';
+    },
+    updateFrame: base.updateFrame,
+    updateData: base.updateData,
     update: function(dt) {
       this.collided = this.colliding;
       this.colliding = false;
@@ -63,13 +112,7 @@ function Sprite(props) {
         }
       }      
     },
-    draw: function() {
-      graphics.save();
-      graphics.translate(this.x, this.y);
-      graphics.fillStyle = this.color;
-      this.drawFrame();
-      graphics.restore();
-    },
+    draw: base.draw,
     getDamageOn: function(y) {
       var impactOnY = (y - this.y)/this.pixelSize;
       if(impactOnY <= 6){
