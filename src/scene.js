@@ -30,6 +30,12 @@ function Scene (props) {
         itemsColliders[gameObject.id] = gameObject;
       }
     },
+    remove: function(gameObject) {
+      var index = this.children.indexOf(gameObject);
+      if(index!=-1){
+        this.children.splice(index, 1);
+      }
+    },
     update: function(dt) {
       if(!this.active) return;
       for (var i = 0; i < this.children.length; i++) {

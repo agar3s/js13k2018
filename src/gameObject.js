@@ -25,7 +25,7 @@ function Sprite(props) {
     animIndex: 0,
     pixelSize: 5,
     orientation: 1, // right
-    animationEnds: function(){
+    animationEnds: function() {
       this.animation = animations[0];
       this.status = 'idle';
     },
@@ -72,9 +72,9 @@ function Sprite(props) {
     },
     getDamageOn: function(y) {
       var impactOnY = (y - this.y)/this.pixelSize;
-      if(impactOnY<=6){
+      if(impactOnY <= 6){
         // impact on head
-      }else if(impactOnY<=11) {
+      }else if(impactOnY <= 11) {
         // impact on body
       }else {
         // impact on legs

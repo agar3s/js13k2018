@@ -4,6 +4,12 @@ mainScene.create = function(){
   this.add(Sprite([120, 120, 2, '#f6f']));
   this.add(Sprite([160, 80, 4, '#6ff']));
   this.add(Sprite([250, 150, 4, '#6ff']));
+
+  for (var i = 0; i < 0; i++) {
+    this.add(Sprite([(~~(Math.random()*60)*5+10), 120, 4, '#666']));
+  }
+
+
   this.add(player);
 };
 

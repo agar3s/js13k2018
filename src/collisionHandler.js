@@ -21,6 +21,15 @@ function addPixelToCollisionMatrix(x, y, hitCollide, id) {
         sprite.getDamageOn(y);
         flash('#100');
         //sprite.colliding = true;
+        // example
+        var explosion = Sprite([x-8, y-8, 7, '#fff']);
+        explosion.pixelSize = 1;
+        explosion.orientation = 0;
+        explosion.animationEnds = function(){
+          mainScene.remove(this);
+        }
+        mainScene.add(explosion);
+        // ends example
       }
     }
   }
