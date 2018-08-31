@@ -19,10 +19,12 @@ function addPixelToCollisionMatrix(x, y, hitCollide, id) {
       var sprite = itemsColliders[data[0]];
       if(data[1]!=1) {
         sprite.getDamageOn(y);
+        sprite.animation = animations[~~(Math.random()*3)+5];
+        sprite.animIndex = 0;
         flash('#100');
         //sprite.colliding = true;
         // example
-        var explosion = Sprite([x-8, y-8, 7, '#fff']);
+        var explosion = Sprite([x-8, y-8, 10, '#fff']);
         explosion.pixelSize = 1;
         explosion.orientation = 0;
         explosion.animationEnds = function(){
