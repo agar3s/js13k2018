@@ -78,6 +78,8 @@ function Character(props) {
     hitPoints: 3,
     collisionAnimation: collisionAnimations[props[2]],
     collisionFrame: [],
+    targetHit: 2,
+    typeHit: 1,
     animationEnds: function() {
       this.animation = animations[0];
       this.collisionAnimation = collisionAnimations[0];
@@ -95,9 +97,9 @@ function Character(props) {
       for (var i = 0; i < this.collisionFrame.length; i++) {
         var coords = this.collisionFrame[i];
         if(this.orientation == 1){
-          addHitPixelToCollisionMatrix(this.x + coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id);
+          addHitPixelToCollisionMatrix(this.x + coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.targetHit);
         }else{
-          addHitPixelToCollisionMatrix(this.x + 14*this.pixelSize - coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id);
+          addHitPixelToCollisionMatrix(this.x + 14*this.pixelSize - coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.targetHit);
         }
       }
     },
@@ -111,10 +113,10 @@ function Character(props) {
         //}
         if(this.orientation == 1){
           graphics.fillRect(coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
-          addPixelToCollisionMatrix(this.x + coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id);
+          addPixelToCollisionMatrix(this.x + coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.typeHit);
         }else{
           graphics.fillRect(14*this.pixelSize - coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
-          addPixelToCollisionMatrix(this.x + 14*this.pixelSize - coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id);
+          addPixelToCollisionMatrix(this.x + 14*this.pixelSize - coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.typeHit);
         }
       }      
     },

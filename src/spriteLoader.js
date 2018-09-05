@@ -87,5 +87,4 @@ for (var i = 0; i < animations.length; i++) {
     }
   }
 }
-console.log(collisionAnimations)
 

@@ -8,6 +8,9 @@ function CharacterController(props) {
 
 function PlayerController(props) {
   var base = CharacterController(props);
+  base.fighter.human = true;
+  base.fighter.targetHit = 1;
+  base.fighter.typeHit = 2;
   var controller = {
     update: function(dt) {
       var fighter = this.fighter;
@@ -53,7 +56,7 @@ function AIController(props) {
     indexAction: 0,
     nextActionTime: 0,
     currentAction: [],
-    actionPipeline: [['move', 0, 1],['punch', 0, 0.2],['move', 1, 1],['kick', 0, 0.2]],
+    actionPipeline: [['move', 0, 1],['punch', 0, 1],['move', 1, 1],['kick', 0, 1]],
     update: function(dt) {
       var fighter = this.fighter;
       this.time += dt;

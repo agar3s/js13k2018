@@ -1,9 +1,11 @@
 
 var mainScene = Scene({});
 var enemy = Fighter([80, 120, 2, '#f6f']);
+var enemy2 = Fighter([75, 120, 2, '#fff']);
 
 var playerController = PlayerController([player]);
 var enemyController = AIController([enemy]);
+var enemyController2 = AIController([enemy2]);
 
 mainScene.create = function(){
 
@@ -12,6 +14,7 @@ mainScene.create = function(){
   }
 
   this.add(enemy);
+  this.add(enemy2);
   this.add(player);
 };
 
@@ -19,6 +22,7 @@ mainScene.create = function(){
 mainScene.updateData = function(dt) {
   playerController.update(dt);
   enemyController.update(dt);
+  enemyController2.update(dt);
 };
 
 // second scene HUD
