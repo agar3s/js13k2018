@@ -81,6 +81,7 @@ function Character(props) {
     targetHit: 2,
     typeHit: 1,
     animationEnds: function() {
+      if(this.status==='walking') return  
       this.animation = animations[0];
       this.collisionAnimation = collisionAnimations[0];
       this.status = 'idle';
@@ -166,7 +167,8 @@ function Fighter(props) {
 
     },
     jump: function() {
-      this.setAnimation(2);
+      console.log('jump');
+      this.setAnimation(9);
     },
     kick: function() {
       this.setAnimation(1);
@@ -185,6 +187,10 @@ function Fighter(props) {
 
     },
     move: function(side, dt) {
+      if(this.status !== 'walking') {
+        this.status = 'walking';
+        this.setAnimation(8);
+      }
       this.dx += CHARACTER_SIDES[side]*this.speed*dt;
       this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;
       this.orientation = side;
