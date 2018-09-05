@@ -4,7 +4,13 @@
 echo "// larga vida al #js13k! "
 # pre
 cat src/pre.js
-echo "const DEBUG=false;"
+
+if [ "$NODE_ENV" == "production" ]; then
+  cat src/env_prod.js
+else
+  cat lib/stats.min.js
+  cat src/env_dev.js 
+fi;
 
 # definitions
 cat src/definitions.js
