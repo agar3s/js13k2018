@@ -1,4 +1,5 @@
 
+var collisionAnimations = [];
 
 function animationLoader (animationData) {
   var frames = [];
@@ -74,5 +75,17 @@ function animationLoader (animationData) {
 
 for (var i = 0; i < animations.length; i++) {
   animations[i] = animationLoader(animations[i]);
+  collisionAnimations.push([])
+
+  // frames
+  for (var j = 0; j < animations[i].length; j++) {
+    // frame
+    collisionAnimations[i].push([])
+    for (var k = 0; k < animations[i][j].length; k++) {
+      var coords = animations[i][j][k];
+      if(coords[2]==1) collisionAnimations[i][j].push([coords[0], coords[1]])
+    }
+  }
 }
+console.log(collisionAnimations)
 
