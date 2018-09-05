@@ -1,14 +1,14 @@
 
 var mainScene = Scene({});
+var enemy = Fighter([80, 120, 2, '#f6f']);
 mainScene.create = function(){
-  this.add(Character([80, 120, 2, '#f6f']));
+  this.add(enemy);
   //this.add(Character([160, 120, 4, '#6ff']));
   //this.add(Character([250, 120, 4, '#6ff']));
 
   for (var i = 0; i < 0; i++) {
     this.add(Character([(~~(Math.random()*60)*5+10), 120, 4, '#666']));
   }
-
 
   this.add(player);
 };
@@ -31,3 +31,11 @@ secondScene.create = function() {
 
 sceneManager.add(mainScene);
 sceneManager.add(secondScene);
+var playerController = new PlayerController([player]);
+var enemyController = new AIController([enemy]);
+
+mainScene.updateData = function(dt) {
+  playerController.update(dt);
+  enemyController.update(dt);
+}
+

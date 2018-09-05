@@ -3,9 +3,6 @@
 
 var itemsColliders = {};
 var matrixDrawing = {};
-function addCollider(item) {
-  itemsColliders.push(item);
-}
 
 function addHitPixelToCollisionMatrix(x, y, id) {
   var key = x+'-'+y;

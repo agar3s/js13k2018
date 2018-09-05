@@ -41,7 +41,9 @@ cat src/collisionHandler.js
 
 cat src/backgroundEffects.js
 
+cat src/fighterController.js
 cat src/player.js
+
 cat src/canvasRenderer.js
 cat src/webglRenderer.js
 cat src/effects.js

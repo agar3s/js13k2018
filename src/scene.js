@@ -36,11 +36,13 @@ function Scene (props) {
         this.children.splice(index, 1);
       }
     },
+    updateData: function(){},
     update: function(dt) {
       if(!this.active) return;
       for (var i = 0; i < this.children.length; i++) {
         this.children[i].update(dt);
       }
+      this.updateData(dt);
     },
     draw: function() {
       if(!this.active) return;
