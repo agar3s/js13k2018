@@ -11,9 +11,8 @@ function GameObject(props) {
 
 function Sprite(props) {
   var base = GameObject(props);
-  return {
-    x: base.x,
-    y: base.y,
+
+  var extended = {
     dx: base.x,
     dy: base.y,
     id: (~~(Math.random()*10000000)).toString(16),
@@ -63,32 +62,21 @@ function Sprite(props) {
       graphics.restore();
     }
   }
+  extendFunction(base, extended)
+  return extended
 }
 
 function Character(props) {
   var base = Sprite(props);
-  return {
-    x: base.x,
-    y: base.y,
-    dx: base.x,
-    dy: base.y,
-    id: base.id,
-    frame: base.frame,
+  var extended = {
     type: 'character',
-    animation: base.animation,
     colliding: false,
-    color: base.color,
-    animIndex: 0,
-    pixelSize: 5,
     hitPoints: 3,
-    orientation: 1, // right
     animationEnds: function() {
       this.animation = animations[0];
       this.status = 'idle';
       this.colliding = false;
     },
-    updateFrame: base.updateFrame,
-    updateData: base.updateData,
     update: function(dt) {
       this.collided = this.colliding;
       this.updateData(dt);
@@ -111,7 +99,6 @@ function Character(props) {
         }
       }      
     },
-    draw: base.draw,
     getDamageOn: function(y) {
       if(this.colliding) return
       this.colliding = true;
@@ -134,5 +121,7 @@ function Character(props) {
       this.animIndex = 0;
     }
   }
+  extendFunction(base, extended)
+  return extended
 }
 
