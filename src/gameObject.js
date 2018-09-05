@@ -164,7 +164,7 @@ function Fighter(props) {
 
     },
     jump: function() {
-      fighter.setAnimation(2);
+      this.setAnimation(2);
     },
     kick: function() {
       this.setAnimation(1);

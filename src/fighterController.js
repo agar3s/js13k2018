@@ -66,7 +66,7 @@ function AIController(props) {
         this.nextActionTime = this.currentAction[2];
         this.time = 0;
       }
-      this.fighter[this.currentAction[0]](this.currentAction[1], dt);
+      fighter[this.currentAction[0]](this.currentAction[1], dt);
     }
   }
   extendFunction(base, controller)
