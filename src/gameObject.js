@@ -21,7 +21,7 @@ function Sprite(props) {
     animation: animations[props[2]],
     color: props[3],
     animIndex: 0,
-    pixelSize: 5,
+    pixelSize: 4,
     orientation: 1, // right
     animationEnds: function() {},
     updateFrame: function (dt) {
@@ -120,26 +120,6 @@ function Character(props) {
           addPixelToCollisionMatrix(this.x + 14*this.pixelSize - coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.typeHit);
         }
       }      
-    },
-    getDamageOn: function(y) {
-      if(this.colliding) return
-      this.colliding = true;
-      this.hitPoints--;
-
-      var impactOnY = (y - this.y)/this.pixelSize;
-      var keyFrame = 0;
-      if(this.hitPoints<0) {
-        keyFrame = 30;
-      }else if(impactOnY <= 6){
-        // impact on face
-        keyFrame = 27;
-      }else if(impactOnY <= 11) {
-        keyFrame = 28;
-        // impact on body
-      }else {
-        // impact on legs
-      }
-      this.setAnimation(keyFrame);
     },
     setAnimation: function(animationIndex) {
       this.animation = animations[animationIndex];

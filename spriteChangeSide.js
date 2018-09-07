@@ -10,7 +10,7 @@ function main(){
     var sprites = [];
     if (err) throw err;
     files.forEach(function(filename){
-      if(filename.indexOf('hero') === -1) return;
+      if(filename.indexOf('hero14') === -1) return;
       var file = fs.readFileSync(dir+'/'+filename, 'utf-8');
       var rawSprite = file.replace(/\r\n/g, '\n');
       var indexOfAnimation = rawSprite.indexOf('\nAnimation:\n');
