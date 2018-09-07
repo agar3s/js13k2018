@@ -82,8 +82,8 @@ function Character(props) {
     typeHit: 1,
     animationEnds: function() {
       if(this.status==='walking') return  
-      this.animation = animations[0];
-      this.collisionAnimation = collisionAnimations[0];
+      this.animation = animations[12];
+      this.collisionAnimation = collisionAnimations[12];
       this.status = 'idle';
       this.colliding = false;
     },
@@ -129,12 +129,12 @@ function Character(props) {
       var impactOnY = (y - this.y)/this.pixelSize;
       var keyFrame = 0;
       if(this.hitPoints<0) {
-        keyFrame = 7;
+        keyFrame = 30;
       }else if(impactOnY <= 6){
-        // impact on head
-        keyFrame = 5;
+        // impact on face
+        keyFrame = 27;
       }else if(impactOnY <= 11) {
-        keyFrame = 6;
+        keyFrame = 28;
         // impact on body
       }else {
         // impact on legs
@@ -153,7 +153,7 @@ function Character(props) {
 
 // 0: left, 1: right
 const CHARACTER_SIDES = [-1, 1];
-const PUNCHS = [2,3,4];
+const PUNCHS = [13, 14];
 
 function Fighter(props) {
   var base = Character(props);
@@ -168,10 +168,10 @@ function Fighter(props) {
     },
     jump: function() {
       console.log('jump');
-      this.setAnimation(9);
+      this.setAnimation(23);
     },
     kick: function() {
-      this.setAnimation(1);
+      this.setAnimation(15);
     },
     punch: function() {
       if(this.status === 'punching') return;
@@ -189,7 +189,7 @@ function Fighter(props) {
     move: function(side, dt) {
       if(this.status !== 'walking') {
         this.status = 'walking';
-        this.setAnimation(8);
+        this.setAnimation(17);
       }
       this.dx += CHARACTER_SIDES[side]*this.speed*dt;
       this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;

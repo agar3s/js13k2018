@@ -61,7 +61,7 @@ function processSprite(name, frames, animations){
   for (var i = 0; i < frames.length; i++) {
     frames[i] = encodeFrame(frames[i]);
   };
-  
+  console.log('processing ', name)
   var animres = buildDiffArray(frames, animations);
   
   var fullAnimation = [];
@@ -120,7 +120,6 @@ function buildDiffArray(encodedFrames, animations){
   var diffCollisionArray = [];
   var arrangedMainFrames = [];
   var arrangedCollisionFrames = [];
-  console.log(encodedFrames)
   for (var i = 0; i < animations.length; i++) {
     arrangedMainFrames.push(encodedFrames[animations[i]].main);
     arrangedCollisionFrames.push(encodedFrames[animations[i]].collision);
@@ -172,8 +171,11 @@ function joinSprites (sprites) {
   var lastCode = [];
   for (var i = 0; i < sprites.length; i++) {
     var sprite = sprites[i];
-    code += `\nvar ${sprite.name} = '${sprite.frames.join('')}';`
-    lastCode.push(sprite.name);
+    var indexAnimation = i;
+    if(indexAnimation<10) indexAnimation = '0'+i
+    var spriteName = `anim${indexAnimation}_${sprite.name}`
+    code += `\nvar ${spriteName} = '${sprite.frames.join('')}';`
+    lastCode.push(spriteName);
   };
   code+=`\nvar animations = [${lastCode}];\n`;
 

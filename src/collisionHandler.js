@@ -27,7 +27,7 @@ function addPixelToCollisionMatrix(x, y, id, type) {
     flash('#600');
     //sprite.colliding = true;
     // example
-    var explosion = Sprite([x-8, y-8, 11, '#fff']);
+    var explosion = Sprite([x-8, y-8, 40, '#fff']);
     explosion.pixelSize = 1;
     explosion.orientation = 0;
     explosion.animationEnds = function(){
