@@ -19,17 +19,17 @@ cat src/definitions.js
 cat lib/utils.js
 cat lib/jsfxr.js
 cat lib/audio.js
-cat lib/webgl.js
+#cat lib/webgl.js
 cat lib/keyboardController.js
 
 # shaders
-cd dist;
-for glsl in *.frag *.vert; do
-  name=`echo $glsl | tr '.' '_' | tr '[:lower:]' '[:upper:]'`
-  cat $glsl | ../scripts/wrapjs.sh $name
-  echo
-done
-cd ..;
+#cd dist;
+#for glsl in *.frag *.vert; do
+#  name=`echo $glsl | tr '.' '_' | tr '[:lower:]' '[:upper:]'`
+#  cat $glsl | ../scripts/wrapjs.sh $name
+#  echo
+#done
+#cd ..;
 
 # game
 cat src/generatedSprites.js
@@ -46,8 +46,8 @@ cat src/fighterController.js
 cat src/player.js
 
 cat src/canvasRenderer.js
-cat src/webglRenderer.js
-cat src/effects.js
+#cat src/webglRenderer.js
+#cat src/effects.js
 cat src/scene.js
 cat src/gameSetup.js
 cat src/gameloop.js

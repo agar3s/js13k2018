@@ -16,7 +16,7 @@ function loop(time) {
   sceneManager.update(time, refreshRatio);
   
   draw();
-  drawPostProcessing(~~(time));
+//  drawPostProcessing(~~(time));
   requestAnimationFrame(loop);
 
   if(DEBUG){
