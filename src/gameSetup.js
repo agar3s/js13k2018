@@ -15,8 +15,9 @@ mainScene.create = function(){
   this.add(enemy);
   this.add(player);
 
-  for (var i = 0; i < 16; i++) {
-    this.add(Tile([i*16*2, 121+16*4, i%5]));
+  var map = [4,5,4,3,4,4,3,4,5,4,4,3,4];
+  for (var i = 0; i < map.length; i++) {
+    this.add(Tile([i*16*2, 121+16*4, map[i]]));
   }
 };
 

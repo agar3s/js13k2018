@@ -22,7 +22,9 @@ function addPixelToCollisionMatrix(x, y, id, type) {
     if((spriteHitId[1]&data[1]) == 0) continue;
 
     var sprite = itemsColliders[data[0]];
-    sprite.getDamageOn(y);
+    var kicker = itemsColliders[spriteHitId[0]];
+
+    kicker.damage(sprite, y);
 
     flash('#0B6A26');
     //sprite.colliding = true;

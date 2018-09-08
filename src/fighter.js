@@ -36,6 +36,14 @@ const FIGHTER_STATUS = [
 ];
 
 const VELOCITIES = [80, 160];
+const DAMAGE_VALUES = [
+  1,    // 0 basic punch
+  1.5,  // 1 basic kick
+  2,    // 2 running punch
+  2,    // 3 running kick
+  2,    // 4 jump kick
+  3     // 5 dragon kick
+];
 
 function Fighter(props) {
   var base = Character(props);
@@ -51,6 +59,7 @@ function Fighter(props) {
     baseSpeed: 0,
     previousSpeed: 0,
     speedY: 0,
+    damageToApply: 0,
     updateData: function(dt) {
       if(this.locked){
         this.freezeTime -= dt;
@@ -97,8 +106,8 @@ function Fighter(props) {
       this.y -= this.pixelSize;
       play(jumpSound);
     },
-    kick: function() {
-      if(this.locked) return;
+    hit: function(animationIndex, damageValueIndex){
+      if(this.locked) return true;
       var soundIndex = ~~(Math.random()*3);
       // running? super kick
       if(this.velocity === VELOCITIES[1]) {
@@ -106,18 +115,26 @@ function Fighter(props) {
         this.brakeSpeed = -this.baseSpeed*0.1;
         if(this.y!=120) {
           this.setAnimation(14, true);
+          this.damageToApply =  DAMAGE_VALUES[5];
         } else {
-          this.setAnimation(9, true);
+          this.setAnimation(animationIndex, true);
+          this.damageToApply =  DAMAGE_VALUES[damageValueIndex];
         }
         play(punchSounds[soundIndex]);
-        return;
+        return true;
       }
       // jump kick
       if (this.y!=120) {
         this.setAnimation(13, true);
         play(punchSounds[soundIndex]);
-        return;
+        this.damageToApply =  DAMAGE_VALUES[4];
+        return true;
       }
+
+      return false;
+    },
+    kick: function() {
+      if(this.hit(9, 2)) return;
 
       // idle kick
       if(this.statusIndex === 3 || this.statusIndex === 4) return;
@@ -126,30 +143,12 @@ function Fighter(props) {
       this.setAnimation(KICKS[this.nextKick]);
       this.nextKick++;
       this.speed = 0;
+      this.damageToApply =  DAMAGE_VALUES[1];
       if(this.nextKick === KICKS.length) this.nextKick = 0
-      play(punchSounds[soundIndex]);
+      play(punchSounds[~~(Math.random()*3)]);
     },
     punch: function() {
-      if(this.locked) return;
-      var soundIndex = ~~(Math.random()*3);
-      // running? super punch
-      if(this.velocity === VELOCITIES[1]) {
-        this.baseSpeed = CHARACTER_SIDES[this.orientation]*VELOCITIES[1]*0.8;
-        this.brakeSpeed = -this.baseSpeed*5;
-        if(this.y!=120) {
-          this.setAnimation(14, true);
-        } else {
-          this.setAnimation(8, true);
-        }
-        play(punchSounds[soundIndex]);
-        return;
-      }
-      // jump kick
-      if (this.y!=120) {
-        this.setAnimation(13, true);
-        play(punchSounds[soundIndex]);
-        return;
-      }
+      if(this.hit(8, 2)) return;
 
       // idle punch
       if(this.statusIndex === 1 || this.statusIndex === 2) return;
@@ -158,14 +157,9 @@ function Fighter(props) {
       this.setAnimation(PUNCHS[this.nextPunch]);
       this.nextPunch++;
       this.speed = 0;
-      play(punchSounds[soundIndex]);
+      this.damageToApply =  DAMAGE_VALUES[0];
+      play(punchSounds[~~(Math.random()*3)]);
       if(this.nextPunch === PUNCHS.length) this.nextPunch = 0
-    },
-    catchActor: function() {
-
-    },
-    throwActor: function() {
-
     },
     move: function(side) {
       if(this.locked) return;
@@ -198,30 +192,42 @@ function Fighter(props) {
       this.colliding = false;
       this.setAnimation(this.status.end)
     },
-    getDamageOn: function(y) {
+    setDamage: function(damage, y) {
       if(this.colliding) return
       if(this.locked) return
       this.colliding = true;
-      this.hitPoints--;
 
       var impactOnY = (y - this.y)/this.pixelSize;
       var nextStatus = 0;
-      if(this.hitPoints<0) {
-        nextStatus = 18;
-      }else if(impactOnY <= 6){
+      var factor = 1;
+      if(impactOnY <= 6){
         // impact on face
         nextStatus = 15;
+        factor = 2;
       }else if(impactOnY <= 11) {
         nextStatus = 16;
         // impact on body
+        factor = 1;
       }else {
         nextStatus = 17;
         // impact on legs
+        factor = 0.6;
       }
+      
+      this.hitPoints -= factor*damage;
+
+      if(this.hitPoints<0) {
+        nextStatus = 18;
+      }
+      console.log(this.id, this.hitPoints, damage, factor);
+
       play(hitSound[~~(Math.random()*3)]);
       this.speed = 0;
       this.setAnimation(nextStatus, true);
     },
+    damage: function(target, y) {
+      target.setDamage(this.damageToApply, y);
+    }
   };
   extendFunction(base, extended)
   return extended
