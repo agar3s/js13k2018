@@ -17,9 +17,9 @@ mainScene.create = function(){
 };
 
 
-mainScene.updateData = function(dt) {
-  playerController.update(dt);
-  enemyController.update(dt);
+mainScene.updateData = function(time, dt) {
+  playerController.update(time, dt);
+  enemyController.update(time, dt);
 };
 
 // second scene HUD

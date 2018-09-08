@@ -56,7 +56,7 @@ function Fighter(props) {
         }
       }
       if (this.speed) {
-        this.dx += CHARACTER_SIDES[this.orientation]*this.speed*dt;
+        this.dx += this.speed*dt;
         this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;
       }else{
         if (this.statusIndex==5) {
@@ -106,8 +106,11 @@ function Fighter(props) {
       if(this.statusIndex !== 5) {
         this.setAnimation(5);
       }
-      this.orientation = side;
-      this.speed = VELOCITIES[0];
+      //this.orientation = side;
+      this.speed = CHARACTER_SIDES[side]*VELOCITIES[0];
+    },
+    turnSide: function() {
+      this.orientation ^= 1;
     },
     setAnimation: function(statusIndex) {
       this.statusIndex = statusIndex

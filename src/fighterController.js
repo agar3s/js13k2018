@@ -11,8 +11,17 @@ function PlayerController(props) {
   base.fighter.human = true;
   base.fighter.targetHit = 1;
   base.fighter.typeHit = 2;
+  base.lastTime = {
+    left: 0,
+    right: 0
+  };
+  base.previousStateKey = {
+    left: false,
+    right: false
+  };
+
   var controller = {
-    update: function(dt) {
+    update: function(time, dt) {
       var fighter = this.fighter;
       fighter.speed = 0;
       var hitLaunched = false;
@@ -32,11 +41,36 @@ function PlayerController(props) {
       if(!hitLaunched) {
         if(keyMap&keys[inputs.LEFT]) {
           fighter.move(0);
+
+          if(!this.previousStateKey.left && (time-this.lastTime.left)<300) {
+            if(fighter.orientation==1){
+              fighter.turnSide();
+            }else{
+              console.log('runnn to left');
+            }
+          }
+          this.lastTime.left = time;
+          this.previousStateKey.left = true;
+          this.previousStateKey.right = true;
+        } else {
+          this.previousStateKey.left = false;
         }
 
         // move to the right
         if(keyMap&keys[inputs.RIGHT]) {
           fighter.move(1);
+          if(!this.previousStateKey.right && (time-this.lastTime.right)<300) {
+            if(fighter.orientation==0){
+              fighter.turnSide();
+            }else if(fighter.speed>0){
+              console.log('run to the right');
+            }
+          }
+          this.lastTime.right = time;
+          this.previousStateKey.right = true;
+          this.previousStateKey.left = true;
+        } else {
+          this.previousStateKey.right = false;
         }
       }
       
@@ -63,7 +97,7 @@ function AIController(props) {
     nextActionTime: 0,
     currentAction: [],
     actionPipeline: [['move', 0, 1],['punch', 0, 1],['move', 1, 1],['kick', 0, 1]],
-    update: function(dt) {
+    update: function(time, dt) {
       var fighter = this.fighter;
       this.time += dt;
       if(this.time > this.nextActionTime) {

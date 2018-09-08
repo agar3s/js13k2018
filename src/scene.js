@@ -7,9 +7,9 @@ var sceneManager = {
     scene.create();
     this.scenes.push(scene);
   },
-  update: function(dt) {
+  update: function(time, dt) {
     for (var i = 0; i < this.scenes.length; i++) {
-      this.scenes[i].update(dt);
+      this.scenes[i].update(time, dt);
     }
   },
   draw: function() {
@@ -36,13 +36,13 @@ function Scene (props) {
         this.children.splice(index, 1);
       }
     },
-    updateData: function(){},
-    update: function(dt) {
+    updateData: function(time, dt){},
+    update: function(time, dt) {
       if(!this.active) return;
       for (var i = 0; i < this.children.length; i++) {
         this.children[i].update(dt);
       }
-      this.updateData(dt);
+      this.updateData(time, dt);
     },
     draw: function() {
       if(!this.active) return;

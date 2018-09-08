@@ -13,7 +13,7 @@ function loop(time) {
   timeEnd = time;
   resetMatrix();
   updateBackgroud(refreshRatio);
-  sceneManager.update(refreshRatio);
+  sceneManager.update(time, refreshRatio);
   
   draw();
   drawPostProcessing(~~(time));
