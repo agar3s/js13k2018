@@ -25,8 +25,11 @@ function addPixelToCollisionMatrix(x, y, id, type) {
     var kicker = itemsColliders[spriteHitId[0]];
 
     kicker.damage(sprite, y);
-
-    flash('#0B6A26');
+    if(player.id === kicker.id) {
+      flash('#196000');
+    }else {
+      flash('#60004b');
+    }
     //sprite.colliding = true;
     // example
     var explosion = Sprite([x-8, y-8, 40, '#fff']);
