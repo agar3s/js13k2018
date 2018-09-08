@@ -94,9 +94,11 @@ function Fighter(props) {
       this.setAnimation(10);
       this.speedY -= 650;
       this.y -= this.pixelSize;
+      play(jumpSound);
     },
     kick: function() {
       if(this.locked) return;
+      var soundIndex = ~~(Math.random()*3);
       // running? super kick
       if(this.velocity === VELOCITIES[1]) {
         this.baseSpeed = CHARACTER_SIDES[this.orientation]*VELOCITIES[1]*0.8;
@@ -106,11 +108,13 @@ function Fighter(props) {
         } else {
           this.setAnimation(9, true);
         }
+        play(punchSounds[soundIndex]);
         return;
       }
       // jump kick
       if (this.y!=120) {
         this.setAnimation(13, true);
+        play(punchSounds[soundIndex]);
         return;
       }
 
@@ -122,9 +126,11 @@ function Fighter(props) {
       this.nextKick++;
       this.speed = 0;
       if(this.nextKick === KICKS.length) this.nextKick = 0
+      play(punchSounds[soundIndex]);
     },
     punch: function() {
       if(this.locked) return;
+      var soundIndex = ~~(Math.random()*3);
       // running? super punch
       if(this.velocity === VELOCITIES[1]) {
         this.baseSpeed = CHARACTER_SIDES[this.orientation]*VELOCITIES[1]*0.8;
@@ -134,11 +140,13 @@ function Fighter(props) {
         } else {
           this.setAnimation(8, true);
         }
+        play(punchSounds[soundIndex]);
         return;
       }
       // jump kick
       if (this.y!=120) {
         this.setAnimation(13, true);
+        play(punchSounds[soundIndex]);
         return;
       }
 
@@ -149,6 +157,7 @@ function Fighter(props) {
       this.setAnimation(PUNCHS[this.nextPunch]);
       this.nextPunch++;
       this.speed = 0;
+      play(punchSounds[soundIndex]);
       if(this.nextPunch === PUNCHS.length) this.nextPunch = 0
     },
     catchActor: function() {
@@ -209,6 +218,7 @@ function Fighter(props) {
         nextStatus = 17;
         // impact on legs
       }
+      play(hitSound[~~(Math.random()*3)]);
       this.speed = 0;
       this.setAnimation(nextStatus, true);
     },
