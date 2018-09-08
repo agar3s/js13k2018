@@ -49,6 +49,7 @@ function Fighter(props) {
     freezeTime: 0,
     brakeSpeed: 0,
     baseSpeed: 0,
+    speedY: 0,
     updateData: function(dt) {
       if(this.locked){
         this.freezeTime -= dt;
@@ -63,11 +64,22 @@ function Fighter(props) {
         this.speed = this.baseSpeed + this.brakeSpeed*dt;
       }
 
+      if (this.y != 120) {
+        this.speedY += 2500*dt;
+        this.dy += this.speedY*dt;
+        this.y = ~~(this.dy/this.pixelSize)*this.pixelSize;
+        if(this.y>=120) {
+          this.y = 120;
+          this.speedY = 0;
+          this.setAnimation(12);
+        }
+      }
+
 
       if (this.speed) {
         this.dx += this.speed*dt;
         this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;
-      }else{
+      } else {
         if (this.statusIndex==5) {
           this.setAnimation(0);
         } else if(this.statusIndex ===6) {
@@ -78,7 +90,10 @@ function Fighter(props) {
     },
     jump: function() {
       if(this.locked) return;
+      if(this.y != 120) return
       this.setAnimation(10);
+      this.speedY -= 700;
+      this.y -= this.pixelSize;
     },
     kick: function() {
       if(this.locked) return;

@@ -1,7 +1,7 @@
 
 var mainScene = Scene({});
-var enemy = Fighter([80, 120, FIGHTER_STATUS_IDS[0], '#f6f']);
-var enemy2 = Fighter([75, 120, FIGHTER_STATUS_IDS[0], '#fff']);
+var enemy = Fighter([80, 120, FIGHTER_STATUS_IDS[0], '#afa']);
+var enemy2 = Fighter([75, 120, FIGHTER_STATUS_IDS[0], '#afa']);
 
 var playerController = PlayerController([player]);
 var enemyController = AIController([enemy]);
