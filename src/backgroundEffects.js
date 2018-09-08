@@ -1,5 +1,5 @@
 
-var currentBackground = '#000';
+var currentBackground = '#111';
 function drawBackground() {
   graphics.save();
   graphics.clearRect(0, 0, 320, 240);
@@ -19,6 +19,6 @@ function updateBackgroud(dt) {
   flashEffect[2] += dt;
   if(flashEffect[2] >= flashEffect[0]) {
     flashEffect[3] = 0;
-    currentBackground = '#000';
+    currentBackground = '#111';
   }
 }

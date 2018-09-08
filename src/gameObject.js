@@ -40,13 +40,7 @@ function Sprite(props) {
     drawFrame: function() {
       for (var i = 0; i < this.frame.length; i++) {
         var coords = this.frame[i];
-        if(coords[2]==1){
-          graphics.fillStyle = '#f00'
-        } else if(this.collided){
-          graphics.fillStyle = '#ff0'
-        }else{
-          graphics.fillStyle = this.color
-        }
+        graphics.fillStyle = this.color
         if(this.orientation == 1){
           graphics.fillRect(coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
         }else{

@@ -1,6 +1,6 @@
 
 var collisionAnimations = [];
-
+var conter = 0;
 function animationLoader (animationData) {
   var frames = [];
   var previousFrame = [];

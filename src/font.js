@@ -27,7 +27,7 @@ function Text(props) {
     y: base.y,
     update: base.update,
     draw: function() {
-      graphics.fillStyle = '#6f6';
+      graphics.fillStyle = '#fff';
       for (var i = 0; i < indexes.length; i++) {
         graphics.save();
         graphics.translate((~~this.x) + i*7, (~~this.y));

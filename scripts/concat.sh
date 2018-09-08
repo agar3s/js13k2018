@@ -37,6 +37,7 @@ cat src/spriteLoader.js
 cat src/gameObject.js
 cat src/fighter.js
 cat src/font.js
+cat src/tiles.js
 cat src/sounds.js
 cat src/collisionHandler.js
 
