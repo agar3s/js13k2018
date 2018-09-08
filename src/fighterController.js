@@ -40,15 +40,17 @@ function PlayerController(props) {
       // move to the left
       if(!hitLaunched) {
         if(keyMap&keys[inputs.LEFT]) {
-          fighter.move(0);
 
           if(!this.previousStateKey.left && (time-this.lastTime.left)<300) {
             if(fighter.orientation==1){
               fighter.turnSide();
             }else{
-              console.log('runnn to left');
+              fighter.run();
             }
           }
+          
+          fighter.move(0);
+
           this.lastTime.left = time;
           this.previousStateKey.left = true;
           this.previousStateKey.right = true;
@@ -58,14 +60,16 @@ function PlayerController(props) {
 
         // move to the right
         if(keyMap&keys[inputs.RIGHT]) {
-          fighter.move(1);
           if(!this.previousStateKey.right && (time-this.lastTime.right)<300) {
             if(fighter.orientation==0){
               fighter.turnSide();
-            }else if(fighter.speed>0){
-              console.log('run to the right');
+            } else {
+              fighter.run();
+              console.log('velocity', fighter.velocity)
             }
           }
+          fighter.move(1);
+
           this.lastTime.right = time;
           this.previousStateKey.right = true;
           this.previousStateKey.left = true;

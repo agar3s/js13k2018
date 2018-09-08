@@ -46,15 +46,24 @@ function Fighter(props) {
     status: FIGHTER_STATUS[0],
     statusIndex: 0,
     locked: false,
-    stunTime: 0,
+    freezeTime: 0,
+    brakeSpeed: 0,
+    baseSpeed: 0,
     updateData: function(dt) {
       if(this.locked){
-        this.stunTime -= dt;
-        if(this.stunTime < 0) {
+        this.freezeTime -= dt;
+        if(this.freezeTime < 0) {
           this.locked = false;
+          this.brakeSpeed = 0;
           this.animationEnds();
         }
       }
+
+      if(this.brakeSpeed) {
+        this.speed = this.baseSpeed + this.brakeSpeed*dt;
+      }
+
+
       if (this.speed) {
         this.dx += this.speed*dt;
         this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;
@@ -62,12 +71,10 @@ function Fighter(props) {
         if (this.statusIndex==5) {
           this.setAnimation(0);
         } else if(this.statusIndex ===6) {
-
+          this.setAnimation(7);
         }
+        this.velocity = 0;
       }
-    },
-    run: function() {
-
     },
     jump: function() {
       if(this.locked) return;
@@ -75,22 +82,38 @@ function Fighter(props) {
     },
     kick: function() {
       if(this.locked) return;
+      // running? super kick
+      if(this.velocity === VELOCITIES[1]) {
+        this.setAnimation(9, true);
+        this.baseSpeed = CHARACTER_SIDES[this.orientation]*VELOCITIES[1]*0.8;
+        this.brakeSpeed = -this.baseSpeed*0.1;
+        return;
+      }
+
       // idle kick
       if(this.statusIndex === 3 || this.statusIndex === 4) return;
       if(this.statusIndex !== 0 && this.statusIndex !== 5) return;
 
-      this.setAnimation(KICKS[this.nextKick])
+      this.setAnimation(KICKS[this.nextKick]);
       this.nextKick++;
       this.speed = 0;
       if(this.nextKick === KICKS.length) this.nextKick = 0
     },
     punch: function() {
       if(this.locked) return;
+      // running? super punch
+      if(this.velocity === VELOCITIES[1]) {
+        this.setAnimation(8, true);
+        this.baseSpeed = CHARACTER_SIDES[this.orientation]*VELOCITIES[1]*0.8;
+        this.brakeSpeed = -this.baseSpeed*5;
+        return;
+      }
+
       // idle punch
       if(this.statusIndex === 1 || this.statusIndex === 2) return;
       if(this.statusIndex !== 0 && this.statusIndex !== 5) return;
 
-      this.setAnimation(PUNCHS[this.nextPunch])
+      this.setAnimation(PUNCHS[this.nextPunch]);
       this.nextPunch++;
       this.speed = 0;
       if(this.nextPunch === PUNCHS.length) this.nextPunch = 0
@@ -103,21 +126,30 @@ function Fighter(props) {
     },
     move: function(side) {
       if(this.locked) return;
-      if(this.statusIndex !== 5) {
+      if(this.statusIndex !==5&&this.statusIndex !=6&&this.statusIndex!=7) {
         this.setAnimation(5);
+        this.velocity = this.velocity!=0?this.velocity:VELOCITIES[0];
       }
       //this.orientation = side;
-      this.speed = CHARACTER_SIDES[side]*VELOCITIES[0];
+      this.speed = CHARACTER_SIDES[side]*this.velocity;
+    },
+    run: function() {
+      this.setAnimation(6);
+      this.velocity = VELOCITIES[1];
     },
     turnSide: function() {
       this.orientation ^= 1;
     },
-    setAnimation: function(statusIndex) {
+    setAnimation: function(statusIndex, lock) {
       this.statusIndex = statusIndex
       this.status = FIGHTER_STATUS[statusIndex];
       this.animation = animations[this.status.anim];
       this.collisionAnimation = collisionAnimations[this.status.anim];
       this.animIndex = 0;
+      if (lock) {
+        this.freezeTime = this.animation.length/20;
+        this.locked = true;
+      }
     },
     animationEnds: function() {
       if(this.status.loop || this.locked) return;
@@ -137,17 +169,14 @@ function Fighter(props) {
       }else if(impactOnY <= 6){
         // impact on face
         nextStatus = 15;
-        this.stunTime = 0.3;
       }else if(impactOnY <= 11) {
         nextStatus = 16;
-        this.stunTime = 0.3;
         // impact on body
       }else {
         // impact on legs
       }
-      this.locked = true;
       this.speed = 0;
-      this.setAnimation(nextStatus);
+      this.setAnimation(nextStatus, true);
     },
   };
   extendFunction(base, extended)
