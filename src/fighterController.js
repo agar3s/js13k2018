@@ -14,14 +14,30 @@ function PlayerController(props) {
   var controller = {
     update: function(dt) {
       var fighter = this.fighter;
-      // move to the left
-      if(keyMap&keys[inputs.LEFT]) {
-        fighter.move(0, dt);
+      fighter.speed = 0;
+      var hitLaunched = false;
+      // punch
+      if(keyMap&keys[inputs.PUNCH]) {
+        fighter.punch();
+        hitLaunched = true;
+      }
+      
+      // kick
+      if(keyMap&keys[inputs.KICK]) {
+        fighter.kick();
+        hitLaunched = true;
       }
 
-      // move to the right
-      if(keyMap&keys[inputs.RIGHT]) {
-        fighter.move(1, dt);
+      // move to the left
+      if(!hitLaunched) {
+        if(keyMap&keys[inputs.LEFT]) {
+          fighter.move(0);
+        }
+
+        // move to the right
+        if(keyMap&keys[inputs.RIGHT]) {
+          fighter.move(1);
+        }
       }
       
       // I don't know
@@ -29,16 +45,6 @@ function PlayerController(props) {
         fighter.orientation ^= 1;
       }
       
-      // punch
-      if(keyMap&keys[inputs.PUNCH]) {
-        fighter.punch();
-      }
-      
-      // kick
-      if(keyMap&keys[inputs.KICK]) {
-        fighter.kick();
-      }
-
       // jump
       if(keyMap&keys[inputs.JUMP]) {
         fighter.jump();

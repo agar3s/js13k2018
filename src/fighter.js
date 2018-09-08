@@ -35,6 +35,7 @@ const FIGHTER_STATUS = [
   {anim: FIGHTER_STATUS_IDS[26], loop: 1} // reserved 6 - anim38
 ];
 
+const VELOCITIES = [80, 160];
 
 function Fighter(props) {
   var base = Character(props);
@@ -54,6 +55,16 @@ function Fighter(props) {
           this.animationEnds();
         }
       }
+      if (this.speed) {
+        this.dx += CHARACTER_SIDES[this.orientation]*this.speed*dt;
+        this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;
+      }else{
+        if (this.statusIndex==5) {
+          this.setAnimation(0);
+        } else if(this.statusIndex ===6) {
+
+        }
+      }
     },
     run: function() {
 
@@ -70,6 +81,7 @@ function Fighter(props) {
 
       this.setAnimation(KICKS[this.nextKick])
       this.nextKick++;
+      this.speed = 0;
       if(this.nextKick === KICKS.length) this.nextKick = 0
     },
     punch: function() {
@@ -80,6 +92,7 @@ function Fighter(props) {
 
       this.setAnimation(PUNCHS[this.nextPunch])
       this.nextPunch++;
+      this.speed = 0;
       if(this.nextPunch === PUNCHS.length) this.nextPunch = 0
     },
     catchActor: function() {
@@ -88,14 +101,13 @@ function Fighter(props) {
     throwActor: function() {
 
     },
-    move: function(side, dt) {
+    move: function(side) {
       if(this.locked) return;
       if(this.statusIndex !== 5) {
         this.setAnimation(5);
       }
-      this.dx += CHARACTER_SIDES[side]*this.speed*dt;
-      this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;
       this.orientation = side;
+      this.speed = VELOCITIES[0];
     },
     setAnimation: function(statusIndex) {
       this.statusIndex = statusIndex
@@ -131,6 +143,7 @@ function Fighter(props) {
         // impact on legs
       }
       this.locked = true;
+      this.speed = 0;
       this.setAnimation(nextStatus);
     },
   };
