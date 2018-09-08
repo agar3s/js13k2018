@@ -92,16 +92,25 @@ function Fighter(props) {
       if(this.locked) return;
       if(this.y != 120) return
       this.setAnimation(10);
-      this.speedY -= 700;
+      this.speedY -= 650;
       this.y -= this.pixelSize;
     },
     kick: function() {
       if(this.locked) return;
       // running? super kick
       if(this.velocity === VELOCITIES[1]) {
-        this.setAnimation(9, true);
         this.baseSpeed = CHARACTER_SIDES[this.orientation]*VELOCITIES[1]*0.8;
         this.brakeSpeed = -this.baseSpeed*0.1;
+        if(this.y!=120) {
+          this.setAnimation(14, true);
+        } else {
+          this.setAnimation(9, true);
+        }
+        return;
+      }
+      // jump kick
+      if (this.y!=120) {
+        this.setAnimation(13, true);
         return;
       }
 
@@ -118,9 +127,18 @@ function Fighter(props) {
       if(this.locked) return;
       // running? super punch
       if(this.velocity === VELOCITIES[1]) {
-        this.setAnimation(8, true);
         this.baseSpeed = CHARACTER_SIDES[this.orientation]*VELOCITIES[1]*0.8;
         this.brakeSpeed = -this.baseSpeed*5;
+        if(this.y!=120) {
+          this.setAnimation(14, true);
+        } else {
+          this.setAnimation(8, true);
+        }
+        return;
+      }
+      // jump kick
+      if (this.y!=120) {
+        this.setAnimation(13, true);
         return;
       }
 
@@ -188,6 +206,7 @@ function Fighter(props) {
         nextStatus = 16;
         // impact on body
       }else {
+        nextStatus = 17;
         // impact on legs
       }
       this.speed = 0;
