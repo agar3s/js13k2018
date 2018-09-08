@@ -1,6 +1,6 @@
 
 var mainScene = Scene({});
-var enemy = Fighter([80, 120, FIGHTER_STATUS_IDS[0], '#DFEFE2']);
+var enemy = Fighter([80, 120, FIGHTER_STATUS_IDS[0], '#6d7f56']);
 var enemy2 = Fighter([75, 120, FIGHTER_STATUS_IDS[0], '#aaa']);
 
 var playerController = PlayerController([player]);

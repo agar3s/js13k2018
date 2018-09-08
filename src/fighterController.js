@@ -65,7 +65,6 @@ function PlayerController(props) {
               fighter.turnSide();
             } else {
               fighter.run();
-              console.log('velocity', fighter.velocity)
             }
           }
           fighter.move(1);
@@ -100,7 +99,7 @@ function AIController(props) {
     indexAction: 0,
     nextActionTime: 0,
     currentAction: [],
-    actionPipeline: [['move', 0, 1],['punch', 0, 1],['move', 1, 1],['kick', 0, 1]],
+    actionPipeline: [[base.fighter.move, 0, 1],[base.fighter.punch, 0, 1],[base.fighter.move, 1, 1],[base.fighter.kick, 0, 1]],
     update: function(time, dt) {
       var fighter = this.fighter;
       this.time += dt;
@@ -113,7 +112,7 @@ function AIController(props) {
         this.nextActionTime = this.currentAction[2];
         this.time = 0;
       }
-      fighter[this.currentAction[0]](this.currentAction[1], dt);
+      this.currentAction[0].bind(fighter)(this.currentAction[1], dt);
     }
   }
   extendFunction(base, controller)

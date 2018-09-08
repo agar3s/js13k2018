@@ -11,6 +11,4 @@ function Tile(props) {
   extendFunction(base, extended);
   return extended;
 }
-console.log(Tile)
-console.log('Tile')
 

@@ -20,37 +20,37 @@ var sceneManager = {
 };
 
 function Scene (props) {
-  var scene = {
+  var t = {
     active: true,
     children: [],
     create: function(){},
     add: function(gameObject) {
-      this.children.push(gameObject);
+      t.children.push(gameObject);
       if(gameObject.type==='character'){
         itemsColliders[gameObject.id] = gameObject;
       }
     },
     remove: function(gameObject) {
-      var index = this.children.indexOf(gameObject);
+      var index = t.children.indexOf(gameObject);
       if(index!=-1){
-        this.children.splice(index, 1);
+        t.children.splice(index, 1);
       }
     },
     updateData: function(time, dt){},
     update: function(time, dt) {
-      if(!this.active) return;
-      for (var i = 0; i < this.children.length; i++) {
-        this.children[i].update(dt);
+      if(!t.active) return;
+      for (var i = 0; i < t.children.length; i++) {
+        t.children[i].update(dt);
       }
-      this.updateData(time, dt);
+      t.updateData(time, dt);
     },
     draw: function() {
-      if(!this.active) return;
-      for (var i = 0; i < this.children.length; i++) {
-        this.children[i].draw();
+      if(!t.active) return;
+      for (var i = 0; i < t.children.length; i++) {
+        t.children[i].draw();
       }
     }
   };
-  return scene;
+  return t;
 }
 
