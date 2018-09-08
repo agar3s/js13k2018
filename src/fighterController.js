@@ -41,11 +41,11 @@ function PlayerController(props) {
       if(!hitLaunched) {
         if(keyMap&keys[inputs.LEFT]) {
 
-          if(!this.previousStateKey.left && (time-this.lastTime.left)<300) {
-            if(fighter.orientation==1){
-              fighter.turnSide();
-            }else{
+          if(!this.previousStateKey.left) {
+            if(fighter.orientation==0 && time-this.lastTime.left<300){
               fighter.run();
+            }else if(fighter.orientation==1 && time-this.lastTime.left<1000){
+              fighter.turnSide();
             }
           }
           
@@ -60,11 +60,11 @@ function PlayerController(props) {
 
         // move to the right
         if(keyMap&keys[inputs.RIGHT]) {
-          if(!this.previousStateKey.right && (time-this.lastTime.right)<300) {
-            if(fighter.orientation==0){
-              fighter.turnSide();
-            } else {
+          if(!this.previousStateKey.right) {
+            if(fighter.orientation==1 && time-this.lastTime.right<300){
               fighter.run();
+            } else if(fighter.orientation==0 && time-this.lastTime.right<1000){
+              fighter.turnSide();
             }
           }
           fighter.move(1);
