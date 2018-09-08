@@ -24,21 +24,21 @@ function PlayerController(props) {
     update: function(time, dt) {
       var fighter = this.fighter;
       fighter.speed = 0;
-      var hitLaunched = false;
+      var hitLock = false;
       // punch
       if(keyMap&keys[inputs.PUNCH]) {
         fighter.punch();
-        hitLaunched = true;
+        hitLock = fighter.y == 120;
       }
       
       // kick
       if(keyMap&keys[inputs.KICK]) {
         fighter.kick();
-        hitLaunched = true;
+        hitLock = fighter.y == 120;
       }
 
       // move to the left
-      if(!hitLaunched) {
+      if(!hitLock) {
         if(keyMap&keys[inputs.LEFT]) {
 
           if(!this.previousStateKey.left) {

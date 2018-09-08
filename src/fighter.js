@@ -49,6 +49,7 @@ function Fighter(props) {
     freezeTime: 0,
     brakeSpeed: 0,
     baseSpeed: 0,
+    previousSpeed: 0,
     speedY: 0,
     updateData: function(dt) {
       if(this.locked){
@@ -168,11 +169,10 @@ function Fighter(props) {
     },
     move: function(side) {
       if(this.locked) return;
-      if(this.statusIndex !==5&&this.statusIndex !=6&&this.statusIndex!=7) {
+      if((this.statusIndex !==5&&this.statusIndex !=6&&this.statusIndex!=7)&&this.y==120) {
         this.setAnimation(5);
-        this.velocity = this.velocity!=0?this.velocity:VELOCITIES[0];
       }
-      //this.orientation = side;
+      this.velocity = this.velocity!=0?this.velocity:VELOCITIES[0];
       this.speed = CHARACTER_SIDES[side]*this.velocity;
     },
     run: function() {
