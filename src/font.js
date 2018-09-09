@@ -25,9 +25,13 @@ function Text(props) {
   return {
     x: base.x,
     y: base.y,
+    color: '#fff',
     update: base.update,
+    setText: function(text) {
+      indexes = parseText(text);
+    },
     draw: function() {
-      graphics.fillStyle = '#9cad87';
+      graphics.fillStyle = this.color;
       for (var i = 0; i < indexes.length; i++) {
         graphics.save();
         graphics.translate((~~this.x) + i*7, (~~this.y));

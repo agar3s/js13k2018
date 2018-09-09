@@ -29,17 +29,38 @@ mainScene.updateData = function(time, dt) {
 
 // second scene HUD
 var secondScene = Scene({});
+var enemyPunched;
+var enemyId = Text([250, 28, '']);
+
 secondScene.create = function() {
-  var something = GameObject([20,20]);
-  something.barLength = 100;
-  something.draw = function() {
+  var heroBar = GameObject([20,20]);
+  heroBar.barLength = 100;
+  heroBar.draw = function() {
     graphics.fillStyle = '#DFEFE2';
     graphics.fillRect(this.x, this.y, 100*(player.hitPoints/30), 10);
   }
-  something.direction = 1;
-  something.update = function(dt) {}
-  this.add(something);
+  heroBar.direction = 1;
+  heroBar.update = function(dt) {}
+  this.add(heroBar);
+
+  var enemyBar = GameObject([300,20]);
+  enemyBar.barLength = 100;
+  enemyBar.draw = function() {
+    if (enemyPunched){
+      graphics.fillStyle = enemyPunched.color;
+      var lenght = 100*(enemyPunched.hitPoints/30);
+      if(lenght<0) return;
+      var start = this.x - lenght
+      graphics.fillRect(start, this.y, lenght, 10);
+    }
+  }
+  enemyBar.direction = 1;
+  enemyBar.update = function(dt) {}
+
+  this.add(heroBar);
   this.add(Text([20, 28, 'you']));
+  this.add(enemyBar);
+  this.add(enemyId);
 };
 
 sceneManager.add(mainScene);

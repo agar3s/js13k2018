@@ -72,7 +72,7 @@ function Fighter(props) {
           return;
         }
       }
-      graphics.save();
+
       for (var i = 0; i < this.frame.length; i++) {
         var coords = this.frame[i];
         graphics.fillStyle = this.color
@@ -83,8 +83,7 @@ function Fighter(props) {
           graphics.fillRect(14*this.pixelSize - coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
           addPixelToCollisionMatrix(this.x + 14*this.pixelSize - coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.typeHit);
         }
-      }      
-      graphics.restore();
+      }
     },
     updateData: function(dt) {
       if(this.locked){
@@ -299,6 +298,12 @@ function Fighter(props) {
       } else {
         this.speed = 0;
         this.setAnimation(nextStatus, true);
+      }
+
+      if(!this.human) {
+        enemyId.setText(this.id);
+        enemyId.color = this.color;
+        enemyPunched = this;
       }
       return true;
     },
