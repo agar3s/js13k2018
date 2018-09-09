@@ -63,6 +63,7 @@ function Fighter(props) {
     onDamageTime: 0,
     continousComboDamage: 0,
     nextFlash: 0,
+    orientation: 0,
     removeMeNextTime: false,
     drawFrame: function() {
       if(this.hitPoints<0){

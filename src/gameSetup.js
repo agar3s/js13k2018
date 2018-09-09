@@ -12,12 +12,13 @@ var enemyConfigurations = [
   [4, '#8fcc3e', 30],
   [5, '#fe1111', 30]
 ];
+
 mainScene.create = function(){
 
   for (var i = 0; i < 6; i++) {
     var enemyConfig = enemyConfigurations[i%6];
 
-    var enemy = Fighter([300+32*i, 120, FIGHTER_STATUS_IDS[0], enemyConfig[1]]);
+    var enemy = Fighter([300+32*i*10, 120, FIGHTER_STATUS_IDS[0], enemyConfig[1]]);
     this.add(enemy);
     enemy.hitPoints = enemyConfig[2];
     var enemyController = AIController([enemy, enemyConfig[0]]);
@@ -27,23 +28,27 @@ mainScene.create = function(){
   this.add(player);
   this.following = player;
 
-  var map = [0,4,4,5,4,5,4,5,4,4,0,4,4,4,5,4,3,4,4,4,0,4,4,4,3,4,4,4,3,4,0,4,4,3,4];
+  var map = [0,4,4,5,4,5,4,5,4,4,0,4,4,4,5,4,3,4,4,4,0,4,4,4,3,4,4,4,3,4,0,4,4,3,4,0,4,4,5,4,5,4,5,4,4,0,4,4,4,5,4,3,4,4,4,0,4,4,4,3,4,4,4,3,4,0,4,4,3,4];
   for (var i = 0; i < map.length; i++) {
     this.add(Tile([i*16*2, 121+16*4, map[i]]));
   }
   mainScene.maxWidth = map.length*32;
   console.log(map.length)
 
-  mainScene.limit = [0, 32*15];
 
-  setTimeout(function(){
-    console.log('update limits - A');
-    mainScene.moveToLimit(mainScene.limit[1]-320, 32*15);
-  }, 5000);
-  setTimeout(function(){
-    console.log('update limits - B');
-    mainScene.moveToLimit(mainScene.limit[1]-320, 32*25);
-  }, 10000);
+
+  this.sections = [
+    32*15,
+    32*25,
+    32*25,
+    32*45,
+    32*70,
+    32*70
+  ];
+  this.currentSectionIndex = 0;
+  mainScene.limit = [0, this.sections[this.currentSectionIndex]];
+
+  //mainScene.moveToLimit(mainScene.limit[1]-320, 32*25);
 
 };
 
@@ -52,6 +57,16 @@ mainScene.updateData = function(time, dt) {
   playerController.update(time, dt);
   for (var i = 0; i < aIControllers.length; i++) {
     aIControllers[i].update(time, dt);
+  }
+
+  if(!this.moving&&-this.x>=this.limit[1]-320-8*16) {
+    this.currentSectionIndex++;
+    if(this.currentSectionIndex>=this.sections.length) {
+      return;
+    }
+    var section = this.sections[this.currentSectionIndex];
+    mainScene.moveToLimit(this.limit[1]-320, section);
+    console.log('changing to '+this.currentSectionIndex + 'section')
   }
 };
 

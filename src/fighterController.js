@@ -11,6 +11,7 @@ function PlayerController(props) {
   base.fighter.human = true;
   base.fighter.targetHit = 1;
   base.fighter.typeHit = 2;
+  base.fighter.orientation = 1;
   base.lastTime = {
     left: 0,
     right: 0
@@ -209,6 +210,10 @@ function AIController(props) {
       this.time = 0;
     },
     update: function(time, dt) {
+      if(mainScene.moving){
+        this.fighter.speed = 0;
+        return;
+      }
       if(this.fighter.locked) return;
       this.fighter.speed = 0;
       this.time += dt;
