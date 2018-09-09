@@ -30,7 +30,7 @@ mainScene.create = function(){
 
   var map = [0,4,4,5,4,5,4,5,4,4,0,4,4,4,5,4,3,4,4,4,0,4,4,4,3,4,4,4,3,4,0,4,4,3,4,0,4,4,5,4,5,4,5,4,4,0,4,4,4,5,4,3,4,4,4,0,4,4,4,3,4,4,4,3,4,0,4,4,3,4];
   for (var i = 0; i < map.length; i++) {
-    this.add(Tile([i*16*2, 121+16*4, map[i]]));
+    this.add(Tile([i*16*2, 118+16*4, map[i]]));
   }
   mainScene.maxWidth = map.length*32;
   console.log(map.length)
