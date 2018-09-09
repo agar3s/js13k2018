@@ -4,13 +4,23 @@ var playerController = PlayerController([player]);
 
 var aIControllers = [];
 
+var enemyConfigurations = [
+  [0, '#007eff', 10],
+  [1, '#fe9300', 10],
+  [2, '#69ccef', 20],
+  [3, '#1ae0b8', 20],
+  [4, '#8fcc3e', 30],
+  [5, '#fe1111', 30]
+];
 mainScene.create = function(){
 
-  for (var i = 0; i < 1; i++) {
-    var enemy = Fighter([300+32*i, 120, FIGHTER_STATUS_IDS[0], '#007eff']);
+  for (var i = 0; i < 6; i++) {
+    var enemyConfig = enemyConfigurations[i%6];
+
+    var enemy = Fighter([300+32*i, 120, FIGHTER_STATUS_IDS[0], enemyConfig[1]]);
     this.add(enemy);
-    enemy.hitPoints = 30;
-    var enemyController = AIController([enemy, 2]);
+    enemy.hitPoints = enemyConfig[2];
+    var enemyController = AIController([enemy, enemyConfig[0]]);
     aIControllers.push(enemyController);
   }
 
@@ -66,7 +76,7 @@ secondScene.create = function() {
   enemyBar.update = function(dt) {}
 
   this.add(heroBar);
-  this.add(Text([20, 28, 'you']));
+  this.add(Text([20, 28, 'mr anderson']));
   this.add(enemyBar);
   this.add(enemyId);
 };

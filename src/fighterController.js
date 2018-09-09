@@ -132,7 +132,7 @@ function AIController(props) {
     return true;
   }
 
-  function run(fighter) {
+  function runToSpecial(fighter) {
     var distance = getDistanceToPlayer(fighter);
     if(distance>250) return false;
     if(!fighter.running)fighter.run();
@@ -140,6 +140,16 @@ function AIController(props) {
     fighter.move();
     return distance>60;
   }
+
+  function runToClose(fighter) {
+    var distance = getDistanceToPlayer(fighter);
+    if(distance>250) return false;
+    if(!fighter.running)fighter.run();
+    fighter.running = true;
+    fighter.move();
+    return distance>24;
+  }
+
   function resetRun(fighter) {
     fighter.running = false;
     return false;
@@ -155,11 +165,29 @@ function AIController(props) {
   }
   function wait(){return true;}
 
+  function alert(fighter) {
+    var distance = getDistanceToPlayer(fighter);
+    var orientation = getOrientationToPlayer(fighter);
+    if(fighter.orientation!=orientation){
+      fighter.turnSide();
+    }
+    if(distance < 60 && player.velocity>100) {
+      fighter.jump();
+      return false;
+    }else if(distance<40){
+      fighter.kick();
+    }
+    return true;
+  }
+
   var basicPuncher = [[closeDistance, 1.5], [wait, 0.1], [punch, 0.5], [wait, 0.1], [takeDistance, 1]];
   var basicKicker =  [[closeDistance, 1.4], [wait, 0.1], [kick, 1], [wait, 0.2], [takeDistance, 0.5]];
+  var fasterPuncher = [[closeDistance, 0.2], [punch, 0.1], [kick, 0.1], [wait, 0.3], [runToSpecial, 1], [punch, 0.3], [wait, 1], [punch, 0.5], [takeDistance, 0.8], [resetRun, 0.1], [wait, 0.5]];
+  var fasterKicker = [[closeDistance, 0.2], [kick, 0.3], [wait, 0.4], [runToSpecial, 0.6], [kick, 0.3], [wait, 1], [kick, 0.5], [takeDistance, 1], [resetRun, 0.1], [wait, 0.6]];
+  var jumper = [[alert, 2], [punch, 0.2], [wait, 0.2], [takeDistance, 0.4], [wait, 0.3], [closeDistance, 0.5]];
+  var aggressive = [[alert, 2], [closeDistance, 0.3], [alert, 0.3], [runToClose, 1], [wait, 0.1], [punch, 1], [kick,1], [takeDistance, 0.5], [resetRun, 0.1], [punch, 1]];
+  var heuristics = [basicPuncher, basicKicker, fasterPuncher, fasterKicker, jumper, aggressive];
 
-  var fasterPuncher = [[closeDistance, 0.2], [punch, 0.1], [kick, 0.1], [wait, 0.3], [run, 1], [punch, 0.3], [wait, 1], [punch, 0.5], [takeDistance, 0.8], [resetRun, 0.1], [wait, 0.5]];
-  var heuristics = [basicPuncher, basicKicker, fasterPuncher];
   var controller = {
     id: (Math.random()).toString(16),
     time: 0,

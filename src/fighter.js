@@ -3,7 +3,7 @@ const CHARACTER_SIDES = [-1, 1];
 const PUNCHS = [1, 2];
 const KICKS = [3, 4];
 
-const FIGHTER_STATUS_IDS = [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38];
+const FIGHTER_STATUS_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
 
 const FIGHTER_STATUS = [
   {anim: FIGHTER_STATUS_IDS[0], loop: 1},           // idle
