@@ -134,7 +134,6 @@ function Fighter(props) {
         }
       }
 
-
       if (this.speed) {
         this.dx += this.speed*dt;
         if(this.dx < -10){
@@ -221,6 +220,7 @@ function Fighter(props) {
         this.setAnimation(5);
       }
       this.velocity = this.velocity!=0?this.velocity:VELOCITIES[0];
+      side = side || this.orientation;
       this.speed = CHARACTER_SIDES[side]*this.velocity;
     },
     run: function() {

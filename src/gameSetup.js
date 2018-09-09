@@ -1,18 +1,19 @@
 
 var mainScene = Scene({});
-var enemy = Fighter([80, 120, FIGHTER_STATUS_IDS[0], '#007eff']);
-var enemy2 = Fighter([75, 120, FIGHTER_STATUS_IDS[0], '#aaa']);
-
 var playerController = PlayerController([player]);
-var enemyController = AIController([enemy]);
+
+var aIControllers = [];
 
 mainScene.create = function(){
 
-  for (var i = 0; i < 10; i++) {
-    this.add(Fighter([32*i, 120, FIGHTER_STATUS_IDS[0], '#fe9300']));
+  for (var i = 0; i < 1; i++) {
+    var enemy = Fighter([300+32*i, 120, FIGHTER_STATUS_IDS[0], '#007eff']);
+    this.add(enemy);
+    enemy.hitPoints = 30;
+    var enemyController = AIController([enemy, 2]);
+    aIControllers.push(enemyController);
   }
 
-  this.add(enemy);
   this.add(player);
   this.following = player;
 
@@ -27,7 +28,9 @@ mainScene.create = function(){
 
 mainScene.updateData = function(time, dt) {
   playerController.update(time, dt);
-  enemyController.update(time, dt);
+  for (var i = 0; i < aIControllers.length; i++) {
+    aIControllers[i].update(time, dt);
+  }
 };
 
 // second scene HUD
