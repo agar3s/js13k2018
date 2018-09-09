@@ -96,9 +96,9 @@ function Fighter(props) {
           this.speed = 0;
 
           if(this.hitPoints<0) {
-            this.freezeTime = 2;
+            this.freezeTime = 0.8;
             this.locked = true;
-            this.nextFlash = 180;
+            this.nextFlash = 50;
             if (this.removeMeNextTime) {
               if(enemyPunched==this){
                 enemyId.setText('');
