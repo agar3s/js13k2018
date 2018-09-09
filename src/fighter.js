@@ -315,6 +315,9 @@ function Fighter(props) {
         throwHit = true;
         throwHeight = 300;
       }
+      if(this.y!=120){
+        throwHeight = -200;
+      }
 
       if (throwHit) {
         nextStatus = 18;
