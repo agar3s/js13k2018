@@ -103,7 +103,11 @@ function Fighter(props) {
               if(enemyPunched==this){
                 enemyId.setText('');
               }
-              return mainScene.remove(this);
+              if(this.human){
+                return mainScene.remove(this);
+              }else{
+                return mainScene.removeEnemy(this);
+              }
             }
             this.removeMeNextTime = true;
           } else {

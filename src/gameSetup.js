@@ -15,17 +15,7 @@ var enemyConfigurations = [
 
 mainScene.create = function(){
 
-  for (var i = 0; i < 6; i++) {
-    /*
-    var enemyConfig = enemyConfigurations[i%6];
-    var enemy = Fighter([300+32*i*10, 120, FIGHTER_STATUS_IDS[0], enemyConfig[1]]);
-    this.add(enemy);
-    enemy.hitPoints = enemyConfig[2];
-    var enemyController = AIController([enemy, enemyConfig[0]]);
-    aIControllers.push(enemyController);
-    */
-  }
-
+  this.enemyCounter = 0;
   this.add(player);
   this.following = player;
 
@@ -54,7 +44,7 @@ mainScene.updateData = function(time, dt) {
     aIControllers[i].update(time, dt);
   }
 
-  if(!this.moving && -this.x >= this.limit[1]-320-8*16) {
+  if(!this.moving && -this.x >= this.limit[1]-320-8*16 && this.enemyCounter==0) {
     mainScene.loadSection(this.currentSectionIndex+1);
   }
 };
@@ -77,6 +67,18 @@ mainScene.loadEnemy = function(props) {
   this.add(enemy);
   enemy.hitPoints = enemyConfig[2];
   aIControllers.push(AIController([enemy, enemyConfig[0]]));
-}
+  this.enemyCounter += 1;
+};
+
+mainScene.removeEnemy = function(enemy) {
+  this.enemyCounter -= 1;
+  for (var i = 0; i < aIControllers.length; i++) {
+    if(aIControllers[i].fighter.id == enemy.id){
+      aIControllers.splice(i, 1);
+      break;
+    }
+  }
+  this.remove(enemy);
+};
 
 sceneManager.add(mainScene);
