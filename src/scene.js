@@ -21,8 +21,12 @@ var sceneManager = {
 
 function Scene (props) {
   var t = {
+    x: 0,
+    dx: 0,
     active: true,
     children: [],
+    following: undefined,
+    maxWidth: 320,
     create: function(){},
     add: function(gameObject) {
       t.children.push(gameObject);
@@ -43,12 +47,26 @@ function Scene (props) {
         t.children[i].update(dt);
       }
       t.updateData(time, dt);
+      if(this.following) {
+        this.x = -(this.following.x-150);
+        this.x = ~~this.x;
+        if(this.x>0) {
+          this.x = 0;
+        }else if(this.x<-this.maxWidth+320){
+          this.x = -this.maxWidth+320;
+        }
+      }
     },
     draw: function() {
       if(!t.active) return;
+      graphics.save();
+      graphics.translate(this.x, 0);
+
       for (var i = 0; i < t.children.length; i++) {
         t.children[i].draw();
       }
+
+      graphics.restore();
     }
   };
   return t;

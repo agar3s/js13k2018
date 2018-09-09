@@ -35,7 +35,7 @@ const FIGHTER_STATUS = [
   {anim: FIGHTER_STATUS_IDS[26], loop: 1} // reserved 6 - anim38
 ];
 
-const VELOCITIES = [80, 160];
+const VELOCITIES = [60, 160];
 const DAMAGE_VALUES = [
   1,    // 0 basic punch
   1.5,  // 1 basic kick
@@ -137,6 +137,11 @@ function Fighter(props) {
 
       if (this.speed) {
         this.dx += this.speed*dt;
+        if(this.dx < -10){
+          this.dx = -10;
+        }else if(this.dx > mainScene.maxWidth-40){
+          this.dx = mainScene.maxWidth-40;
+        }
         this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;
       } else {
         if (this.statusIndex==5) {
@@ -321,7 +326,8 @@ function Fighter(props) {
       return true;
     },
     damage: function(target, y) {
-      return target.setDamage(this.damageToApply || 2, y, this.orientation^1);
+      var orientation = this.x > target.x ? 1: 0;
+      return target.setDamage(this.damageToApply || 2, y, orientation);
     }
   };
   extendFunction(base, extended)
