@@ -63,7 +63,9 @@ function Scene (props) {
       graphics.translate(this.x, 0);
 
       for (var i = 0; i < t.children.length; i++) {
-        t.children[i].draw();
+        var gameObject = t.children[i]
+        if(gameObject.x + 20 > -this.x && gameObject.x < -this.x + 310)
+        gameObject.draw();
       }
 
       graphics.restore();
