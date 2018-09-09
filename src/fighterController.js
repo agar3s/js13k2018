@@ -99,7 +99,7 @@ function AIController(props) {
     indexAction: 0,
     nextActionTime: 0,
     currentAction: [],
-    actionPipeline: [[base.fighter.move, 0, 1],[base.fighter.punch, 0, 1],[base.fighter.move, 1, 1],[base.fighter.kick, 0, 1]],
+    actionPipeline: [[base.fighter.move, 0, 0.5],[base.fighter.punch, 0, 1],[base.fighter.move, 1, 0.5],[base.fighter.kick, 0, 1]],
     update: function(time, dt) {
       var fighter = this.fighter;
       this.time += dt;

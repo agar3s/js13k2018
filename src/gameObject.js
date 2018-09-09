@@ -74,13 +74,6 @@ function Character(props) {
     collisionFrame: [],
     targetHit: 2,
     typeHit: 1,
-    animationEnds: function() {
-      if(this.status==='walking') return  
-      this.animation = animations[12];
-      this.collisionAnimation = collisionAnimations[12];
-      this.status = 'idle';
-      this.colliding = false;
-    },
     update: function(dt) {
       this.collided = this.colliding;
       this.updateData(dt);
@@ -97,28 +90,6 @@ function Character(props) {
           addHitPixelToCollisionMatrix(this.x + 14*this.pixelSize - coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.targetHit);
         }
       }
-    },
-    drawFrame: function() {
-      for (var i = 0; i < this.frame.length; i++) {
-        var coords = this.frame[i];
-        /*if(coords[2]==1){
-          graphics.fillStyle = '#f00'
-        }else{*/
-          graphics.fillStyle = this.color
-        //}
-        if(this.orientation == 1){
-          graphics.fillRect(coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
-          addPixelToCollisionMatrix(this.x + coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.typeHit);
-        }else{
-          graphics.fillRect(14*this.pixelSize - coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
-          addPixelToCollisionMatrix(this.x + 14*this.pixelSize - coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.typeHit);
-        }
-      }      
-    },
-    setAnimation: function(animationIndex) {
-      this.animation = animations[animationIndex];
-      this.collisionAnimation = collisionAnimations[animationIndex];
-      this.animIndex = 0;
     }
   }
   extendFunction(base, extended)

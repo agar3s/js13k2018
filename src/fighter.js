@@ -23,10 +23,10 @@ const FIGHTER_STATUS = [
   {anim: FIGHTER_STATUS_IDS[14], loop: 1},          // jump-running kick
   {anim: FIGHTER_STATUS_IDS[15], loop: 0, end: 0},  // get hit face
   {anim: FIGHTER_STATUS_IDS[16], loop: 0, end: 0},  // get hit body
-  {anim: FIGHTER_STATUS_IDS[17], loop: 0, end: 18}, // get hit legs
-  {anim: FIGHTER_STATUS_IDS[18], loop: 1},          // knocked down
+  {anim: FIGHTER_STATUS_IDS[17], loop: 0, end: 20}, // get hit legs
+  {anim: FIGHTER_STATUS_IDS[18], loop: 1},  // knocked down
   {anim: FIGHTER_STATUS_IDS[19], loop: 0, end: 0},  // wake up
-  {anim: FIGHTER_STATUS_IDS[20], loop: 1}, // defeated
+  {anim: FIGHTER_STATUS_IDS[20], loop: 0, end: 19}, // defeated
   {anim: FIGHTER_STATUS_IDS[21], loop: 1}, // reserved 1 - anim33
   {anim: FIGHTER_STATUS_IDS[22], loop: 1}, // reserved 2 - anim34
   {anim: FIGHTER_STATUS_IDS[23], loop: 1}, // reserved 3 - anim35
@@ -48,7 +48,7 @@ const DAMAGE_VALUES = [
 function Fighter(props) {
   var base = Character(props);
   var extended = {
-    speed: 120,
+    speed: 0,
     nextPunch: 0,
     nextKick: 0,
     status: FIGHTER_STATUS[0],
@@ -60,18 +60,59 @@ function Fighter(props) {
     previousSpeed: 0,
     speedY: 0,
     damageToApply: 0,
+    onDamageTime: 0,
+    continousComboDamage: 0,
+    nextFlash: 0,
+    removeMeNextTime: false,
+    drawFrame: function() {
+      if(this.hitPoints<0){
+        var countdown = ~~(this.freezeTime*100);
+        if(countdown<this.nextFlash) {
+          this.nextFlash = countdown*0.8;
+          return;
+        }
+      }
+      graphics.save();
+      for (var i = 0; i < this.frame.length; i++) {
+        var coords = this.frame[i];
+        graphics.fillStyle = this.color
+        if(this.orientation == 1){
+          graphics.fillRect(coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
+          addPixelToCollisionMatrix(this.x + coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.typeHit);
+        }else{
+          graphics.fillRect(14*this.pixelSize - coords[0]*this.pixelSize, coords[1]*this.pixelSize, this.pixelSize, this.pixelSize);
+          addPixelToCollisionMatrix(this.x + 14*this.pixelSize - coords[0]*this.pixelSize, this.y +coords[1]*this.pixelSize, this.id, this.typeHit);
+        }
+      }      
+      graphics.restore();
+    },
     updateData: function(dt) {
       if(this.locked){
         this.freezeTime -= dt;
         if(this.freezeTime < 0) {
           this.locked = false;
           this.brakeSpeed = 0;
-          this.animationEnds();
+          this.baseSpeed = 0;
+          this.speed = 0;
+
+          if(this.hitPoints<0) {
+            this.freezeTime = 2;
+            this.locked = true;
+            this.nextFlash = 180;
+            if (this.removeMeNextTime) {
+              return mainScene.remove(this);
+            }
+            this.removeMeNextTime = true;
+          } else {
+            this.animationEnds();
+          }
+
         }
       }
 
-      if(this.brakeSpeed) {
-        this.speed = this.baseSpeed + this.brakeSpeed*dt;
+      if(this.baseSpeed) {
+        this.baseSpeed += this.brakeSpeed*dt;
+        this.speed = this.baseSpeed;
       }
 
       if (this.y != 120) {
@@ -81,7 +122,16 @@ function Fighter(props) {
         if(this.y>=120) {
           this.y = 120;
           this.speedY = 0;
-          this.setAnimation(12);
+          if(this.statusIndex!=18){
+            this.setAnimation(12);
+          }else {
+            this.brakeSpeed = 0;
+            this.baseSpeed = 0;
+            this.speed = 0;
+            this.typeHit = this.typeHit ^ 3;
+            this.targetHit = this.targetHit ^ 3;
+            this.setAnimation(20, true, 1);
+          }
         }
       }
 
@@ -176,14 +226,14 @@ function Fighter(props) {
     turnSide: function() {
       this.orientation ^= 1;
     },
-    setAnimation: function(statusIndex, lock) {
+    setAnimation: function(statusIndex, lock, freezeTime) {
       this.statusIndex = statusIndex
       this.status = FIGHTER_STATUS[statusIndex];
       this.animation = animations[this.status.anim];
       this.collisionAnimation = collisionAnimations[this.status.anim];
       this.animIndex = 0;
       if (lock) {
-        this.freezeTime = this.animation.length/20;
+        this.freezeTime = freezeTime || this.animation.length/20;
         this.locked = true;
       }
     },
@@ -192,9 +242,10 @@ function Fighter(props) {
       this.colliding = false;
       this.setAnimation(this.status.end)
     },
-    setDamage: function(damage, y) {
-      if(this.colliding) return
-      if(this.locked) return
+    setDamage: function(damage, y, kickerOrientation) {
+      if(this.colliding) return false;
+      if(this.locked) return false;
+      if(this.statusIndex===18) return false;
       this.colliding = true;
 
       var impactOnY = (y - this.y)/this.pixelSize;
@@ -214,19 +265,45 @@ function Fighter(props) {
         factor = 0.6;
       }
       
+      play(hitSound[~~(Math.random()*3)]);
+      var throwHit = false;
+      // check damage on combo      
+      if(+new Date() - this.onDamageTime < 350) {
+        // connect combo
+        this.continousComboDamage++;
+        factor += this.continousComboDamage*0.1;
+        if(this.continousComboDamage>3 && factor*damage>2){
+          throwHit = true;
+        }
+      }else {
+        this.continousComboDamage = 0;
+      }
+      this.onDamageTime = + new Date();
+
+      // calculate damage
       this.hitPoints -= factor*damage;
 
       if(this.hitPoints<0) {
-        nextStatus = 18;
+        throwHit = true;
       }
-      console.log(this.id, this.hitPoints, damage, factor);
 
-      play(hitSound[~~(Math.random()*3)]);
-      this.speed = 0;
-      this.setAnimation(nextStatus, true);
+      if (throwHit) {
+        nextStatus = 18;
+        this.baseSpeed = -CHARACTER_SIDES[kickerOrientation]*VELOCITIES[1]*2;
+        this.brakeSpeed = -this.baseSpeed*2;
+        this.speedY -= 400;
+        this.y -= this.pixelSize;
+        this.setAnimation(nextStatus, true, 1);
+        this.typeHit = this.typeHit ^ 3;
+        this.targetHit = this.targetHit ^ 3;
+      } else {
+        this.speed = 0;
+        this.setAnimation(nextStatus, true);
+      }
+      return true;
     },
     damage: function(target, y) {
-      target.setDamage(this.damageToApply, y);
+      return target.setDamage(this.damageToApply, y, this.orientation^1);
     }
   };
   extendFunction(base, extended)

@@ -20,14 +20,12 @@ function addPixelToCollisionMatrix(x, y, id, type) {
     var data = matrixDrawing[key][i];
     // if the same sprite is on the hit area continue
     if((spriteHitId[1]&data[1]) == 0) continue;
-
+    if((spriteHitId[0]==data[0])) continue;
     var sprite = itemsColliders[data[0]];
     var kicker = itemsColliders[spriteHitId[0]];
 
-    kicker.damage(sprite, y);
-    if(player.id === kicker.id) {
-      flash('#196000');
-    }else {
+    if(!kicker.damage(sprite, y)) return;
+    if(player.id === sprite.id) {
       flash('#60004b');
     }
     //sprite.colliding = true;
