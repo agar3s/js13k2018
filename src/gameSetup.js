@@ -37,7 +37,9 @@ secondScene.create = function() {
   heroBar.barLength = 100;
   heroBar.draw = function() {
     graphics.fillStyle = '#DFEFE2';
-    graphics.fillRect(this.x, this.y, 100*(player.hitPoints/30), 10);
+    var lenght = 100*(player.hitPoints/30);
+    if(lenght<0) return;
+    graphics.fillRect(this.x, this.y, ~~lenght, 5);
   }
   heroBar.direction = 1;
   heroBar.update = function(dt) {}
@@ -51,7 +53,7 @@ secondScene.create = function() {
       var lenght = 100*(enemyPunched.hitPoints/30);
       if(lenght<0) return;
       var start = this.x - lenght
-      graphics.fillRect(start, this.y, lenght, 10);
+      graphics.fillRect(start, this.y, ~~lenght, 5);
     }
   }
   enemyBar.direction = 1;

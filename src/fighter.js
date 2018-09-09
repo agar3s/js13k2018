@@ -39,10 +39,10 @@ const VELOCITIES = [80, 160];
 const DAMAGE_VALUES = [
   1,    // 0 basic punch
   1.5,  // 1 basic kick
-  2,    // 2 running punch
-  2,    // 3 running kick
+  4.1,    // 2 running punch
+  1,    // 3 running kick
   2,    // 4 jump kick
-  3     // 5 dragon kick
+  5     // 5 dragon kick
 ];
 
 function Fighter(props) {
@@ -250,6 +250,10 @@ function Fighter(props) {
       var impactOnY = (y - this.y)/this.pixelSize;
       var nextStatus = 0;
       var factor = 1;
+      var throwHit = false;
+      var throwHeight = 0;
+      var throwDistance = 1;
+
       if(impactOnY <= 6){
         // impact on face
         nextStatus = 15;
@@ -262,10 +266,12 @@ function Fighter(props) {
         nextStatus = 17;
         // impact on legs
         factor = 0.6;
+        throwHit = true;
+        throwHeight = 100;
+        throwDistance = 0.5;
       }
       
       play(hitSound[~~(Math.random()*3)]);
-      var throwHit = false;
       // check damage on combo      
       if(+new Date() - this.onDamageTime < 350) {
         // connect combo
@@ -273,9 +279,15 @@ function Fighter(props) {
         factor += this.continousComboDamage*0.1;
         if(this.continousComboDamage>3 && factor*damage>2){
           throwHit = true;
+          throwHeight = 200;
         }
       }else {
         this.continousComboDamage = 0;
+      }
+      if(factor*damage>4) {
+        throwHeight = 100;
+        throwHit = true;
+        throwDistance = 2;
       }
       this.onDamageTime = + new Date();
 
@@ -284,13 +296,14 @@ function Fighter(props) {
 
       if(this.hitPoints<0) {
         throwHit = true;
+        throwHeight = 300;
       }
 
       if (throwHit) {
         nextStatus = 18;
-        this.baseSpeed = -CHARACTER_SIDES[kickerOrientation]*VELOCITIES[1]*2;
+        this.baseSpeed = -CHARACTER_SIDES[kickerOrientation]*VELOCITIES[1]*throwDistance;
         this.brakeSpeed = -this.baseSpeed*2;
-        this.speedY -= 400;
+        this.speedY -= 200 + throwHeight;
         this.y -= this.pixelSize;
         this.setAnimation(nextStatus, true, 1);
         this.typeHit = this.typeHit ^ 3;
@@ -308,7 +321,7 @@ function Fighter(props) {
       return true;
     },
     damage: function(target, y) {
-      return target.setDamage(this.damageToApply, y, this.orientation^1);
+      return target.setDamage(this.damageToApply || 2, y, this.orientation^1);
     }
   };
   extendFunction(base, extended)
