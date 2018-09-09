@@ -51,5 +51,6 @@ cat src/canvasRenderer.js
 #cat src/effects.js
 cat src/scene.js
 cat src/gameSetup.js
+cat src/gameHud.js
 cat src/gameloop.js
 cat src/post.js
