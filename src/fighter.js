@@ -122,7 +122,11 @@ function Fighter(props) {
           this.y = 120;
           this.speedY = 0;
           if(this.statusIndex!=18){
-            this.setAnimation(12);
+            if(this.velocity> VELOCITIES[0]){
+              this.setAnimation(6);
+            } else {
+              this.setAnimation(12);
+            }
           }else {
             this.brakeSpeed = 0;
             this.baseSpeed = 0;
