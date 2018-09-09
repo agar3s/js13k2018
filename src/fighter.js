@@ -99,6 +99,9 @@ function Fighter(props) {
             this.locked = true;
             this.nextFlash = 180;
             if (this.removeMeNextTime) {
+              if(enemyPunched==this){
+                enemyId.setText('');
+              }
               return mainScene.remove(this);
             }
             this.removeMeNextTime = true;
