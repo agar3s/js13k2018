@@ -220,7 +220,12 @@ function Fighter(props) {
         this.setAnimation(5);
       }
       this.velocity = this.velocity!=0?this.velocity:VELOCITIES[0];
-      side = side || this.orientation;
+      if(side==undefined){
+        side = this.orientation;
+      }else if(side!=this.orientation) {
+        this.velocity = VELOCITIES[0];
+        if(this.statusIndex !==5)this.setAnimation(5);
+      }
       this.speed = CHARACTER_SIDES[side]*this.velocity;
     },
     run: function() {

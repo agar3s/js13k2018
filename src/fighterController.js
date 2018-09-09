@@ -77,6 +77,9 @@ function PlayerController(props) {
           this.previousStateKey.right = false;
         }
       }
+      if(keyMap&keys[inputs.RIGHT] && keyMap&keys[inputs.LEFT]){
+        fighter.speed = 0;
+      }
       
       // I don't know
       if(keyMap&keys[inputs.ENTER]) {
