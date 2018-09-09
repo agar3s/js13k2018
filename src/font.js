@@ -11,11 +11,11 @@ function parseText(text) {
   return indexes;
 }
 
-function drawFrame(index) {
+function drawFrame(index, size) {
   var letterFrame = animations[indexOfFontFrame][index];
   for (var i = 0; i < letterFrame.length; i++) {
     var coords = letterFrame[i];
-    graphics.fillRect(coords[0], coords[1], 1, 1);
+    graphics.fillRect(coords[0]*size, coords[1]*size, size, size);
   }
 }
 
@@ -25,7 +25,9 @@ function Text(props) {
   return {
     x: base.x,
     y: base.y,
+    visible: true,
     color: '#fff',
+    size: 1,
     update: base.update,
     setText: function(text) {
       indexes = parseText(text);
@@ -34,8 +36,8 @@ function Text(props) {
       graphics.fillStyle = this.color;
       for (var i = 0; i < indexes.length; i++) {
         graphics.save();
-        graphics.translate((~~this.x) + i*7, (~~this.y));
-        drawFrame(indexes[i]);
+        graphics.translate((~~this.x) + i*7*this.size, (~~this.y));
+        drawFrame(indexes[i], this.size);
         graphics.restore();
       }
     }

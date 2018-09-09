@@ -59,6 +59,11 @@ mainScene.loadSection = function(index) {
   for (var i = 0; i < section[1].length; i++) {
     this.loadEnemy(section[1][i]);
   }
+
+  if (hudScene) {
+    hudScene.goMessage.active = false;
+    hudScene.goMessage.visible = false;
+  }
 };
 
 mainScene.loadEnemy = function(props) {
@@ -79,6 +84,9 @@ mainScene.removeEnemy = function(enemy) {
     }
   }
   this.remove(enemy);
+  if (this.enemyCounter==0) {
+    hudScene.goMessage.active = true;
+  }
 };
 
 sceneManager.add(mainScene);

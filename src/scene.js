@@ -69,8 +69,9 @@ function Scene (props) {
 
       for (var i = 0; i < t.children.length; i++) {
         var gameObject = t.children[i]
-        if(gameObject.x + 24 > -this.x && gameObject.x < -this.x + 310)
-        gameObject.draw();
+        if(gameObject.x + 24 > -this.x && gameObject.x < -this.x + 310 && gameObject.visible){
+          gameObject.draw();
+        }
       }
 
       graphics.restore();

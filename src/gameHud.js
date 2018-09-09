@@ -31,7 +31,9 @@ hudScene.create = function() {
   enemyBar.update = function(dt) {}
 
   this.add(heroBar);
-  this.add(Text([20, 28, 'mr anderson']));
+  var name = Text([20, 28, 'mr anderson']);
+  name.size = 1;
+  this.add(name);
   this.add(enemyBar);
   this.add(enemyId);
 
@@ -45,7 +47,20 @@ hudScene.create = function() {
     graphics.fillRect(this.x + position, this.y, 1, 3);
   }
   this.add(progressBar);
+
+  this.goMessage = Text([200, 60, 'go!']);
+  this.goMessage.size = 2;
+  this.goMessage.time = 0;
+  this.goMessage.visible = false;
+  this.goMessage.update = function(dt) {
+    if(!this.active) return;
+    this.time += dt;
+    var value = this.time%0.8;
+    this.visible = value<0.6;
+  }
+  this.add(this.goMessage);
 };
+
 
 sceneManager.add(hudScene);
 
