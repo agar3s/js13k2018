@@ -27,11 +27,23 @@ mainScene.create = function(){
   this.add(player);
   this.following = player;
 
-  var map = [4,5,4,3,4,4,3,4,5,4,4,3,4,4,5,4,3,4,4,3,4,5,4,4,3,4];
+  var map = [0,4,4,5,4,5,4,5,4,4,0,4,4,4,5,4,3,4,4,4,0,4,4,4,3,4,4,4,3,4,0,4,4,3,4];
   for (var i = 0; i < map.length; i++) {
     this.add(Tile([i*16*2, 121+16*4, map[i]]));
   }
   mainScene.maxWidth = map.length*32;
+  console.log(map.length)
+
+  mainScene.limit = [0, 32*15];
+
+  setTimeout(function(){
+    console.log('update limits - A');
+    mainScene.moveToLimit(mainScene.limit[1]-320, 32*15);
+  }, 5000);
+  setTimeout(function(){
+    console.log('update limits - B');
+    mainScene.moveToLimit(mainScene.limit[1]-320, 32*25);
+  }, 10000);
 
 };
 

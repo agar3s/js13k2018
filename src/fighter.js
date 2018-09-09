@@ -143,10 +143,12 @@ function Fighter(props) {
 
       if (this.speed) {
         this.dx += this.speed*dt;
-        if(this.dx < -10){
-          this.dx = -10;
-        }else if(this.dx > mainScene.maxWidth-40){
-          this.dx = mainScene.maxWidth-40;
+        var minLimit = mainScene.limit[0] - 10;
+        var maxLimit = mainScene.limit[1] - 40;
+        if(this.dx < minLimit){
+          this.dx = minLimit;
+        }else if(this.dx > maxLimit){
+          this.dx = maxLimit;
         }
         this.x = ~~(this.dx/this.pixelSize)*this.pixelSize;
       } else {

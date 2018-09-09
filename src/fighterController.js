@@ -22,6 +22,10 @@ function PlayerController(props) {
 
   var controller = {
     update: function(time, dt) {
+      if(mainScene.moving){
+        this.fighter.speed = 0;
+        return;
+      }
       var fighter = this.fighter;
       if(fighter.locked) return;
       fighter.speed = 0;
@@ -76,9 +80,6 @@ function PlayerController(props) {
         } else {
           this.previousStateKey.right = false;
         }
-      }
-      if(keyMap&keys[inputs.RIGHT] && keyMap&keys[inputs.LEFT]){
-        fighter.speed = 0;
       }
       
       // I don't know

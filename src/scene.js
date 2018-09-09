@@ -26,6 +26,7 @@ function Scene (props) {
     active: true,
     children: [],
     following: undefined,
+    limit: [],
     maxWidth: 320,
     create: function(){},
     add: function(gameObject) {
@@ -47,13 +48,17 @@ function Scene (props) {
         t.children[i].update(dt);
       }
       t.updateData(time, dt);
-      if(this.following) {
+
+      if (this.moving) {
+        this.moving = this.x>-this.targetX && this.x-320>-this.limit[1];
+        if (this.moving) this.x -= 1;
+      }else if(this.following) {
         this.x = -(this.following.x-150);
         this.x = ~~this.x;
-        if(this.x>0) {
-          this.x = 0;
-        }else if(this.x<-this.maxWidth+320){
-          this.x = -this.maxWidth+320;
+        if(this.x>-this.limit[0]) {
+          this.x = -this.limit[0];
+        }else if(this.x<-this.limit[1]+320){
+          this.x = -this.limit[1]+320;
         }
       }
     },
@@ -69,6 +74,15 @@ function Scene (props) {
       }
 
       graphics.restore();
+    },
+    moveToLimit: function(minLimit, maxLimit){
+      this.moving = true;
+      this.targetX = player.x-150;
+      if (this.targetX<minLimit){
+        this.targetX = minLimit;
+      }
+      this.limit[0] = minLimit;
+      this.limit[1] = maxLimit;
     }
   };
   return t;
