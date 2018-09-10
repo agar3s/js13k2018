@@ -26,7 +26,7 @@ function Sprite(props) {
     orientation: 1, // right
     animationEnds: function() {},
     updateFrame: function (dt) {
-      this.animIndex += dt*20;
+      this.animIndex += dt*22;
       if (this.animIndex >= this.animation.length) {
         this.animIndex = 0;
         this.animationEnds();

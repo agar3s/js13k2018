@@ -9,6 +9,7 @@ function CharacterController(props) {
 function PlayerController(props) {
   var base = CharacterController(props);
   base.fighter.human = true;
+  base.fighter.hitPoints = 60;
   base.fighter.targetHit = 1;
   base.fighter.typeHit = 2;
   base.fighter.orientation = 1;

@@ -57,6 +57,12 @@ hudScene.create = function() {
     this.time += dt;
     var value = this.time%0.8;
     this.visible = value<0.6;
+
+    if(this.time > 4) {
+      this.visible = false;
+      this.time = 0;
+      this.active = false;
+    }
   }
   this.add(this.goMessage);
 };

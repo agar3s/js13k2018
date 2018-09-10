@@ -19,19 +19,39 @@ mainScene.create = function(){
   this.add(player);
   this.following = player;
 
-  var map = [0,4,4,5,4,5,4,5,4,4,0,4,4,4,5,4,3,4,4,4,0,4,4,4,3,4,4,4,3,4,0,4,4,3,4,0,4,4,5,4,5,4,5,4,4,0,4,4,4,5,4,3,4,4,4,0,4,4,4,3,4,4,4,3,4,0,4,4,3,4];
+  var map = [3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,4,4,4,3,4,0,4,4,3,4];
+  map[5] = 1;
+  map[14] = 0;
+  map[15] = 3;
+  map[16] = 0;
+  
+  map[20] = 1;
+  map[29] = 0;
+  map[30] = 3;
+  map[31] = 0;
+
+  map[35] = 1;
+  map[45] = 3;
+
+  map[50] = 1;
+  map[60] = 3;
   for (var i = 0; i < map.length; i++) {
     this.add(Tile([i*16*2, 118+16*4, map[i]]));
   }
+  console.log(map.length)
   mainScene.maxWidth = map.length*32;
 
   this.sections = [
-    [32*15,[[32*3, 0]]],
-    [32*25,[[32*12, 1]]],
-    [32*25,[[32*24, 3]]],
-    [32*45,[[32*40, 2], [32*41, 1], [32*42, 2]]],
-    [32*70,[]],
-    [32*70,[]]
+    [32*15,[],[]],
+    [32*15,[[32*10, 0], [32*11, 0], [32*12, 0]],[]],
+    [32*30,[],[]],
+    [32*30,[[32*25, 2], [32*27, 1]],[]],
+    [32*45,[],[]],
+    [32*45,[[32*40, 4]],[]],
+    [32*60,[],[]],
+    [32*60,[[32*58, 5]],[]],
+    [32*70,[],[]],
+    [32*70,[],[]]
   ];
   mainScene.limit = [0, 320];
   this.loadSection(0);
@@ -58,11 +78,6 @@ mainScene.loadSection = function(index) {
   mainScene.moveToLimit(this.limit[1]-320, section[0]);
   for (var i = 0; i < section[1].length; i++) {
     this.loadEnemy(section[1][i]);
-  }
-
-  if (hudScene) {
-    hudScene.goMessage.active = false;
-    hudScene.goMessage.visible = false;
   }
 };
 
