@@ -43,9 +43,9 @@ mainScene.create = function(){
 
   this.sections = [
     [32*15,[],[]],
-    [32*15,[[32*10, 0], [32*11, 0], [32*12, 0]],[]],
+    [32*15,[[32*10, 0]],[[0,0],[0,0],[1]]],
     [32*30,[],[]],
-    [32*30,[[32*25, 2], [32*27, 1]],[]],
+    [32*30,[[32*25, 1], [32*27, 1]],[[1],[1, 1],[],[2]]],
     [32*45,[],[]],
     [32*45,[[32*40, 4]],[]],
     [32*60,[],[]],
@@ -79,6 +79,7 @@ mainScene.loadSection = function(index) {
   for (var i = 0; i < section[1].length; i++) {
     this.loadEnemy(section[1][i]);
   }
+  mainScene.enemyPool = section[2].reverse();
 };
 
 mainScene.loadEnemy = function(props) {
@@ -88,6 +89,7 @@ mainScene.loadEnemy = function(props) {
   enemy.hitPoints = enemyConfig[2];
   aIControllers.push(AIController([enemy, enemyConfig[0]]));
   this.enemyCounter += 1;
+  return enemy;
 };
 
 mainScene.removeEnemy = function(enemy) {
@@ -99,8 +101,23 @@ mainScene.removeEnemy = function(enemy) {
     }
   }
   this.remove(enemy);
+  mainScene.summonEnemy();
   if (this.enemyCounter==0) {
     hudScene.goMessage.active = true;
+  }
+};
+
+mainScene.summonEnemy = function() {
+  if(!mainScene.enemyPool.length) return;
+  var enemiesToSummon = mainScene.enemyPool.pop();
+  for (var i = 0; i < enemiesToSummon.length; i++) {
+    var enemyType = enemiesToSummon[i];
+    var x = -this.x + (i%2==0?32:32*8);
+    var enemy = mainScene.loadEnemy([x, enemyType]);
+    enemy.setAnimation(11);
+    enemy.y = -60;
+    enemy.dy = -60;
+    enemy.locked = true;
   }
 };
 

@@ -52,8 +52,12 @@ function PlayerController(props) {
             if(fighter.orientation==0 && time-this.lastTime.left<300){
               fighter.run();
             }else if(fighter.orientation==1 && time-this.lastTime.left<1000){
-              fighter.turnSide();
+              //fighter.turnSide();
             }
+          }
+
+          if(fighter.orientation==1){
+            fighter.turnSide();
           }
           
           fighter.move(0);
@@ -71,9 +75,13 @@ function PlayerController(props) {
             if(fighter.orientation==1 && time-this.lastTime.right<300){
               fighter.run();
             } else if(fighter.orientation==0 && time-this.lastTime.right<1000){
-              fighter.turnSide();
+              //fighter.turnSide();
             }
           }
+          if(fighter.orientation==0){
+            fighter.turnSide();
+          }
+
           fighter.move(1);
 
           this.lastTime.right = time;
