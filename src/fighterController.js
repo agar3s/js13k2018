@@ -52,11 +52,11 @@ function PlayerController(props) {
             if(fighter.orientation==0 && time-this.lastTime.left<300){
               fighter.run();
             }else if(fighter.orientation==1 && time-this.lastTime.left<1000){
-              //fighter.turnSide();
+              fighter.turnSide();
             }
           }
 
-          if(fighter.orientation==1){
+          if (this.simpleTurnMode&&fighter.orientation==1) {
             fighter.turnSide();
           }
           
@@ -75,10 +75,10 @@ function PlayerController(props) {
             if(fighter.orientation==1 && time-this.lastTime.right<300){
               fighter.run();
             } else if(fighter.orientation==0 && time-this.lastTime.right<1000){
-              //fighter.turnSide();
+              fighter.turnSide();
             }
           }
-          if(fighter.orientation==0){
+          if(this.simpleTurnMode && fighter.orientation==0){
             fighter.turnSide();
           }
 
@@ -127,7 +127,7 @@ function AIController(props) {
   }
   function closeDistance(fighter) {
     var distance = getDistanceToPlayer(fighter);
-    if(distance>24 && distance<200) {
+    if(distance>24 && distance<300) {
       var orientation = getOrientationToPlayer(fighter);
       if(fighter.orientation!=orientation){
         fighter.turnSide()
@@ -148,19 +148,47 @@ function AIController(props) {
 
   function runToSpecial(fighter) {
     var distance = getDistanceToPlayer(fighter);
-    if(distance>250) return false;
+    if(distance>270) return false;
     if(!fighter.running)fighter.run();
     fighter.running = true;
     fighter.move();
     return distance>60;
   }
 
-  function runToClose(fighter) {
+  function runToSpecialAlert(fighter) {
     var distance = getDistanceToPlayer(fighter);
-    if(distance>250) return false;
+    if(distance>270) return false;
     if(!fighter.running)fighter.run();
     fighter.running = true;
     fighter.move();
+    if(distance < 70 && player.velocity>100) {
+      fighter.jump();
+      return false;
+    }
+    return distance>60;
+  }
+
+  function runToClose(fighter) {
+    var distance = getDistanceToPlayer(fighter);
+    if(distance>270) return false;
+    if(!fighter.running)fighter.run();
+    fighter.running = true;
+    fighter.move();
+    return distance>24;
+  }
+
+  function runToCloseAlert(fighter) {
+    var distance = getDistanceToPlayer(fighter);
+    if(distance>270) return false;
+    if(!fighter.running)fighter.run();
+    fighter.running = true;
+    fighter.move();
+
+    if(distance < 70 && player.velocity>100) {
+      fighter.jump();
+      return false;
+    }
+
     return distance>24;
   }
 
@@ -196,11 +224,16 @@ function AIController(props) {
 
   var basicPuncher = [[closeDistance, 1.5], [wait, 0.1], [punch, 0.5], [wait, 0.1], [takeDistance, 1]];
   var basicKicker =  [[closeDistance, 1.4], [wait, 0.1], [kick, 1], [wait, 0.2], [takeDistance, 0.5]];
-  var fasterPuncher = [[closeDistance, 0.2], [punch, 0.1], [kick, 0.1], [wait, 0.3], [runToSpecial, 1], [punch, 0.3], [wait, 1], [punch, 0.5], [takeDistance, 0.8], [resetRun, 0.1], [wait, 0.5]];
-  var fasterKicker = [[closeDistance, 0.2], [kick, 0.3], [wait, 0.4], [runToSpecial, 0.6], [kick, 0.3], [wait, 1], [kick, 0.5], [takeDistance, 1], [resetRun, 0.1], [wait, 0.6]];
-  var jumper = [[alert, 2], [punch, 0.2], [wait, 0.2], [takeDistance, 0.4], [wait, 0.3], [closeDistance, 0.5]];
-  var aggressive = [[alert, 2], [closeDistance, 0.3], [alert, 0.3], [runToClose, 1], [wait, 0.1], [punch, 1], [kick,1], [takeDistance, 0.5], [resetRun, 0.1], [punch, 1]];
-  var heuristics = [basicPuncher, basicKicker, fasterPuncher, fasterKicker, jumper, aggressive];
+  var fasterPuncher = [[closeDistance, 0.2], [punch, 0.1], [kick, 0.1], [wait, 0.3], [closeDistance, 0.1], [runToSpecial, 1], [punch, 0.3], [wait, 1], [closeDistance, 0.1], [punch, 0.5], [takeDistance, 0.8], [resetRun, 0.1], [wait, 0.5]];
+  var fasterKicker = [[closeDistance, 0.2], [kick, 0.3], [wait, 0.4], [closeDistance, 0.2], [runToSpecial, 0.6], [closeDistance, 0.1],[kick, 0.3], [wait, 0.6], [closeDistance, 0.1],[kick, 0.5], [takeDistance, 1], [resetRun, 0.1], [wait, 0.6]];
+  var jumper = [[alert, 1.5], [punch, 0.3], [closeDistance, 0.2],[wait, 0.2], [punch, 0.3],[takeDistance, 0.4], [wait, 0.3], [closeDistance, 0.5]];
+  var aggressive = [[alert, 1.7], [closeDistance, 0.2], [alert, 0.5], [runToClose, 1], [wait, 0.1], [closeDistance, 0.1], [punch, 1], [closeDistance, 0.1],[kick,1], [closeDistance, 0.1], [takeDistance, 0.5], [resetRun, 0.1], [closeDistance, 0.1], [punch, 1]];
+  
+  var aggressiveA = [[closeDistance, 0.1], [alert, 0.6], [runToCloseAlert, 0.6], [closeDistance, 0.1], [alert, 0.6], [resetRun, 0.1], [runToSpecialAlert, 0.6], [punch, 0.6], [takeDistance, 0.5],[closeDistance, 0.1], [kick, 0.8], [resetRun, 0.1]];
+  
+  var aggressiveS = [[closeDistance, 0.1], [runToSpecialAlert, 0.6], [closeDistance, 0.1], [kick, 1], [resetRun, 0.1], [closeDistance, 0.1], [runToSpecialAlert, 1], [closeDistance, 0.1], [punch, 1], [resetRun, 0.1]];
+
+  var heuristics = [basicPuncher, basicKicker, fasterPuncher, fasterKicker, jumper, aggressive, aggressiveA, aggressiveS];
 
   var controller = {
     id: (Math.random()).toString(16),

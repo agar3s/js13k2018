@@ -21,10 +21,10 @@ hudScene.create = function() {
   enemyBar.draw = function() {
     if (enemyPunched){
       graphics.fillStyle = enemyPunched.color;
-      var length = 100*(enemyPunched.hitPoints/30);
+      var length = ~~(100*(enemyPunched.hitPoints/30));
       if(length<0) return;
       var start = this.x - length
-      graphics.fillRect(start, this.y, ~~length, 5);
+      graphics.fillRect(start, this.y, length, 5);
     }
   }
   enemyBar.direction = 1;
@@ -64,8 +64,65 @@ hudScene.create = function() {
       this.active = false;
     }
   }
+  
   this.add(this.goMessage);
+
+  this.clock = Text([150, 1, '00 00'])
+  this.clock.time = 0;
+  this.clock.setTime = function(time){
+    this.time = time;
+    var cents = this.time%100;
+    if(cents<10) cents = '0'+cents;
+    var seconds = ~~(this.time/100);
+    if(seconds<10) seconds = '0'+seconds;
+    this.setText(seconds+' '+cents);
+  }
+  this.add(this.clock);
+
+  this.dialogue = Text([10, 70, '']);
+  this.dialogue.size = 1;
+  this.dialogue.time = 0;
+  this.dialogue.visible = false;
+  this.dialogue.pipeline = [];
+  this.dialogue.index = -1;
+  this.dialogue.color = '#66b400';
+  this.dialogue.setIndex = function(index){
+    this.index = index;
+    if(this.index>=this.pipeline.length) {
+      this.active = false;
+      this.visible = false;
+      return;
+    }
+    var dialogue = this.pipeline[this.index];
+    this.setText(dialogue[0]);
+    this.time = dialogue[1];
+    this.active = true;
+    this.visible = true;
+
+  };
+  this.dialogue.update = function(dt) {
+    if(!this.active) return;
+    this.time -= dt;
+    if(this.time<0) {
+      this.setIndex(this.index + 1);
+    }
+  }
+  this.add(this.dialogue);
 };
+
+hudScene.updateData = function(time){
+  var time = ~~(time/10);
+  if(this.clock.time != time){
+    this.clock.setTime(time);
+  }
+}
+
+hudScene.setDialoguePipeline = function(dialogue){
+  this.dialogue.pipeline = dialogue;
+  if(this.dialogue.pipeline.length>0){
+    this.dialogue.setIndex(0);
+  }
+}
 
 
 sceneManager.add(hudScene);

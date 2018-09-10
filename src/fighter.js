@@ -63,7 +63,7 @@ function Fighter(props) {
     onDamageTime: 0,
     continousComboDamage: 0,
     nextFlash: 0,
-    orientation: 0,
+    orientation: 1,
     removeMeNextTime: false,
     drawFrame: function() {
       if(this.hitPoints<0){
@@ -104,7 +104,7 @@ function Fighter(props) {
                 enemyId.setText('');
               }
               if(this.human){
-                return mainScene.remove(this);
+                return mainScene.gameOver(this);
               }else{
                 return mainScene.removeEnemy(this);
               }
