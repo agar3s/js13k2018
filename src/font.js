@@ -1,6 +1,6 @@
 // src/font.js
 
-var fontLetters = 'abcdefghijklmnopqrstuvwxyz0123456789!?# :,.';
+var fontLetters = 'abcdefghijklmnopqrstuvwxyz0123456789!?# :,.’';
 var indexOfFontFrame = 0;
 
 function parseText(text) {

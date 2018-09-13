@@ -24,7 +24,7 @@ mainScene.create = function(){
   this.lastCheckPoint = 0;
 
   var map = [0];
-  for (var i = 1; i < 180; i++) {
+  for (var i = 1; i < 150; i++) {
     var tile = 4;
     if(i%15==0){
       map[i-1] = 3;
@@ -45,7 +45,7 @@ mainScene.create = function(){
 
   this.sections = [
     // 0
-    [32*15,[],[],[['neo: operator?', 2], ['',0.6],['neo: i need an exit', 2],['',0.6],['neo: now!',2], ['',1],['operator: there is an exit at the end.', 2], ['', 0.6], ['operator: .', 0.4], ['operator: ..', 0.4], ['operator: ...', 1], ['', 0.6], ['operator: let me guide you.', 2]]],
+    [32*15,[],[], matrixScript[0]],
     [32*15,[[32*10, 0]],[[0,0],[0,0],[1]]],
     // 1
     [32*30,[],[]],
@@ -53,41 +53,33 @@ mainScene.create = function(){
     
     // 2
     [32*45,[],[]],
-    [32*45,[[32*40, 4]],[],[['...', 0.2],['mr. smith: mr anderson', 2], ['mr. smith: you can not escape', 2], ['',2], ['operator: run!', 3]]],
+    [32*45,[[32*40, 4]],[],matrixScript[1]],
     // 3
     [32*60,[],[],[['operator: i cant believe it!', 2]]],
     [32*60,[[32*58, 2]],[[1,1],[0,0],[1,1],[],[3]]],
     // 4
     [32*75,[],[]],
-    [32*75,[[32*69,0],[32*71,0],[32*73, 3]],[[],[],[0,1,0,0,1,0]]],
+    [32*75,[[32*69,0],[32*71,0],[32*73, 3]],[[0,1],[0,0],[1,0]]],
     // 5
     [32*90,[],[]],
-    [32*90,[[32*85, 5]],[[3,3]]],
+    [32*90,[[32*85, 5]],[], matrixScript[2]],
     // 6
-    [32*105,[],[]],
-    [32*105,[],[[4],[2,1,1],[0,0],[0,0],[0,0,0]]],
-    
+    [32*105,[],[], matrixScript[3]],
+    [32*105,[],[[0,0],[1,1],[0,0,0],[1,1,1],[],[],[0,0,1,1],[1,0,0,1],[],[],[],[2]]],
     // 7
-    [32*120,[],[]],
-    [32*120,[[32*115, 6]],[]],
+    [32*120,[],[], [['trinity: hurry, neo!', 2]]],
+    [32*120,[],[[5, 6]], matrixScript[4]],
     // 8
     [32*135,[],[]],
-    [32*135,[],[[0,0],[1,1],[0,0,0],[1,1,1],[],[],[0,0,1,1],[1,0,0,1],[],[],[],[2]]],
-    
+    [32*135,[[32*130, 7]], [], matrixScript[5]],
     // 9
     [32*150,[],[]],
-    [32*150,[],[[5, 6]]],
-    // 10
-    [32*165,[],[]],
-    [32*165,[[32*175, 7]],[]],
-    
-    [32*180,[],[]],
-    [32*180,[],[]]
+    [32*150,[],[]]
   ];
   mainScene.limit = [0, 320];
-  this.loadSection(0);
+  //this.loadSection(0);
 
-  this.loadCheckPoint(1*2);
+  this.loadCheckPoint(0*2);
 };
 
 mainScene.loadCheckPoint = function(point) {
@@ -141,6 +133,9 @@ mainScene.updateData = function(time, dt) {
 mainScene.loadSection = function(index) {
   if(index>=this.sections.length) {
     return;
+  }
+  if(hudScene && this.currentSectionIndex>5){
+    hudScene.setDialoguePipeline([]);
   }
   this.currentSectionIndex = index;
   var section = JSON.parse(JSON.stringify(this.sections[this.currentSectionIndex]));

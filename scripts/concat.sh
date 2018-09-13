@@ -33,6 +33,7 @@ cat lib/keyboardController.js
 
 # game
 cat src/generatedSprites.js
+cat src/theScript.js
 cat src/spriteLoader.js
 cat src/gameObject.js
 cat src/fighter.js
