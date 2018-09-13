@@ -22,7 +22,7 @@ levelUpScene.create = function() {
 };
 
 levelUpScene.setOption = function(index){
-  this.options[this.indexOption].color = '#fff';
+  this.options[this.indexOption].color = '#ddfed9';
   this.indexOption = index;
   if(this.indexOption>=this.options.length){
     this.indexOption = 0;
@@ -30,7 +30,7 @@ levelUpScene.setOption = function(index){
   if(this.indexOption<0){
     this.indexOption = this.options.length - 1;
   }
-  this.options[this.indexOption].color = '#0f0';
+  this.options[this.indexOption].color = '#9bbc0f';
 }
 
 levelUpScene.applyStat = function(){
@@ -44,6 +44,7 @@ levelUpScene.applyStat = function(){
   this.options[2].setText('damage: +'+basePlayerStat.damage+' (+0.5)');
 
   player.resetHp();
+  play(powerup);
 }
 
 levelUpScene.updateData = function(time){

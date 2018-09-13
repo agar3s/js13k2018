@@ -3,7 +3,7 @@ function Pickable(props) {
   var base = Sprite([props[0], props[1], 30]);
   base.frame = base.animation[props[2]];
   base.pixelSize = 1;
-  base.color = '#0f0';
+  base.color = '#9bbc0f';
   base.type = 'pickable';
   base.colliding = false;
   base.collisionAnimation = collisionAnimations[30];
@@ -14,6 +14,9 @@ function Pickable(props) {
     setHitArea: function() {
       addHitPixelToCollisionMatrix(this.x, this.y, this.id, this.targetHit);
       addHitPixelToCollisionMatrix(this.x+4, this.y+4, this.id, this.targetHit);
+      addHitPixelToCollisionMatrix(this.x+8, this.y-4, this.id, this.targetHit);
+      addHitPixelToCollisionMatrix(this.x+12, this.y+4, this.id, this.targetHit);
+      addHitPixelToCollisionMatrix(this.x+16, this.y-4, this.id, this.targetHit);
     },
     update: function(dt) {
       this.collided = this.colliding;

@@ -40,17 +40,18 @@ hudScene.create = function() {
   var progressBar = GameObject([20, 234]);
   progressBar.length = 280;
   progressBar.draw = function() {
-    graphics.fillStyle = '#000';
+    graphics.fillStyle = '#306230';
     graphics.fillRect(this.x, this.y, this.length, 3);
-    graphics.fillStyle = '#fff';
+    graphics.fillStyle = '#9bbc0f';
     var position = ~~(this.length*((player.x+12)/(mainScene.maxWidth-24)));
-    graphics.fillRect(this.x + position, this.y, 1, 3);
+    graphics.fillRect(this.x + position, this.y, 3, 3);
   }
   this.add(progressBar);
 
   this.goMessage = Text([200, 60, 'go!']);
   this.goMessage.size = 2;
   this.goMessage.time = 0;
+  this.goMessage.color = '#9bbc0f';
   this.goMessage.visible = false;
   this.goMessage.update = function(dt) {
     if(!this.active) return;
@@ -67,7 +68,7 @@ hudScene.create = function() {
   
   this.add(this.goMessage);
 
-  this.clock = Text([150, 1, '00 00'])
+  this.clock = Text([150, 1, '00:00'])
   this.clock.time = 0;
   this.clock.setTime = function(time){
     this.time = time;
@@ -75,7 +76,7 @@ hudScene.create = function() {
     if(cents<10) cents = '0'+cents;
     var seconds = ~~(this.time/100);
     if(seconds<10) seconds = '0'+seconds;
-    this.setText(seconds+' '+cents);
+    this.setText(seconds+':'+cents);
   }
   this.add(this.clock);
 
@@ -85,7 +86,7 @@ hudScene.create = function() {
   this.dialogue.visible = false;
   this.dialogue.pipeline = [];
   this.dialogue.index = -1;
-  this.dialogue.color = '#66b400';
+  this.dialogue.color = '#9bbc0f';
   this.dialogue.setIndex = function(index){
     this.index = index;
     if(this.index>=this.pipeline.length) {

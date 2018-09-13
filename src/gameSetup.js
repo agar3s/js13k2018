@@ -5,17 +5,19 @@ var playerController = PlayerController([player]);
 var aIControllers = [];
 
 var enemyConfigurations = [
-  [0, '#007eff', 10],
-  [1, '#fe9300', 10],
-  [2, '#69ccef', 20], // 69ccef
-  [3, '#1ae0b8', 20], // 1ae0b8
+  [0, '#346856', 10],
+  [1, '#306230', 10],
+  [2, '#768448', 20], // 69ccef
+  [3, '#7e8416', 20], // 1ae0b8
   [4, '#8fcc3e', 30], // 8fcc3e
-  [5, '#fe1111', 30],  // fe1111
-  [6, '#ffff11', 40],   // fe1111
-  [7, '#F6FF97', 50]   // fe1111
+  [5, '#7bc67b', 30],  // fe1111
+  [6, '#F6FF97', 40],   // fe1111
+  [7, '#9bbc0f', 50]   // fe1111
 ];
 
 mainScene.create = function(){
+
+  this.loadIntro();
 
   this.enemyCounter = 0;
   this.add(player);
@@ -88,8 +90,89 @@ mainScene.create = function(){
   this.add(new Heart([32*109,120+12*4, 6]));
   this.add(new Heart([32*124,120+12*4, 6]));
 
-  this.loadCheckPoint(9*2);
+  this.loadCheckPoint(0*2);
+  this.loadCheckPoint(0*2);
 };
+
+mainScene.loadIntro = function(){
+  var title = Text([140, 35, 'the matr13k']);
+  title.color = '#306230';
+  title.size = 2;
+  this.add(title);
+  var title2 = Text([140, 35, '        13k']);
+  title2.color = '#9bbc0f';
+  title2.size = 2;
+  this.add(title2);
+
+  var madeby = Text([170, 55, 'made by agar3s']);
+  madeby.color = '#9bbc0f';
+  madeby.size = 1;
+  this.add(madeby);
+
+  var controlsA = Text([160, 100, 'arrow keys to move']);
+  controlsA.color = '#306230';
+  controlsA.size = 1;
+  this.add(controlsA);
+  var controlsB = Text([160, 112, '(s key) to punch']);
+  controlsB.color = '#306230';
+  controlsB.size = 1;
+  this.add(controlsB);
+  var controlsC = Text([160, 124, '(d key) to kick']);
+  controlsC.color = '#306230';
+  controlsC.size = 1;
+  this.add(controlsC);
+  var controlsD = Text([160, 136, '(space key) to jump']);
+  controlsD.color = '#306230';
+  controlsD.size = 1;
+  this.add(controlsD);
+
+  var controlsE = Text([320, 100, '(> > s) special punch']);
+  controlsE.color = '#306230';
+  controlsE.size = 1;
+  this.add(controlsE);
+
+  var controlsF = Text([320, 112, '(> > d) special kick']);
+  controlsF.color = '#306230';
+  controlsF.size = 1;
+  this.add(controlsF);
+
+  var controlsG = Text([480, 220, 'your progress is down here']);
+  controlsG.color = '#306230';
+  controlsG.size = 1;
+  this.add(controlsG);
+  var controlsH = Text([480, 220, '                      here']);
+  controlsH.color = '#9bbc0f';
+  controlsH.size = 1;
+  this.add(controlsH);
+
+/*
+  var colorA = Text([50, 100, '00000']);
+  colorA.color = '#306230';
+  this.add(colorA);
+  var colorB = Text([50, 110, '00000']);
+  colorB.color = '#346856';
+  this.add(colorB);
+  var colorC = Text([50, 120, '00000']);
+  colorC.color = '#768448';
+  this.add(colorC);
+  var colorD = Text([50, 130, '00000']);
+  colorD.color = '#7e8416';
+  this.add(colorD);
+  var colorE = Text([50, 140, '00000']);
+  colorE.color = '#8fcc3e';
+  this.add(colorE);
+  var colorF = Text([50, 150, '00000']);
+  colorF.color = '#7bc67b';
+  this.add(colorF);
+  var colorG = Text([50, 160, '00000']);
+  colorG.color = '#F6FF97';
+  this.add(colorG);
+  var colorH = Text([50, 170, '00000']);
+  colorH.color = '#9bbc0f';
+  this.add(colorH);*/
+  //colorB.color = '#306230';
+
+}
 
 mainScene.loadCheckPoint = function(point) {
   var distance = this.sections[point][0];
@@ -143,9 +226,7 @@ mainScene.loadSection = function(index) {
   if(index>=this.sections.length) {
     return;
   }
-  if(hudScene && this.currentSectionIndex>5){
-    hudScene.setDialoguePipeline([]);
-  }
+  
   this.currentSectionIndex = index;
   var section = JSON.parse(JSON.stringify(this.sections[this.currentSectionIndex]));
   mainScene.moveToLimit(this.limit[1]-320, section[0]);

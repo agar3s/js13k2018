@@ -1,6 +1,6 @@
 // src/font.js
 
-var fontLetters = 'abcdefghijklmnopqrstuvwxyz0123456789!?# :,.’+()';
+var fontLetters = 'abcdefghijklmnopqrstuvwxyz0123456789!?# :,.’+()><';
 var indexOfFontFrame = 0;
 
 function parseText(text) {
@@ -26,7 +26,7 @@ function Text(props) {
     x: base.x,
     y: base.y,
     visible: true,
-    color: '#fff',
+    color: '#ddfed9',
     size: 1,
     update: base.update,
     setText: function(text) {
