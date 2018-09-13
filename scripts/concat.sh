@@ -36,6 +36,7 @@ cat src/generatedSprites.js
 cat src/theScript.js
 cat src/spriteLoader.js
 cat src/gameObject.js
+cat src/items.js
 cat src/fighter.js
 cat src/font.js
 cat src/tiles.js
@@ -53,5 +54,6 @@ cat src/canvasRenderer.js
 cat src/scene.js
 cat src/gameSetup.js
 cat src/gameHud.js
+cat src/levelUpScene.js
 cat src/gameloop.js
 cat src/post.js

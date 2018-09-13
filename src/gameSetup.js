@@ -74,12 +74,21 @@ mainScene.create = function(){
     [32*135,[[32*130, 7]], [], matrixScript[5]],
     // 9
     [32*150,[],[]],
-    [32*150,[],[]]
+    [32*150,[],[], matrixScript[6]]
   ];
   mainScene.limit = [0, 320];
   //this.loadSection(0);
 
-  this.loadCheckPoint(0*2);
+  this.add(new Heart([32*19,120+12*4, 6]));
+  this.add(new Heart([32*34,120+12*4, 6]));
+  this.add(new Disquette([32*49,120+12*4, 6]));
+  this.add(new Heart([32*64,120+12*4, 6]));
+  this.add(new Heart([32*79,120+12*4, 6]));
+  this.add(new Disquette([32*94,120+12*4, 6]));
+  this.add(new Heart([32*109,120+12*4, 6]));
+  this.add(new Heart([32*124,120+12*4, 6]));
+
+  this.loadCheckPoint(9*2);
 };
 
 mainScene.loadCheckPoint = function(point) {
@@ -94,7 +103,7 @@ mainScene.loadCheckPoint = function(point) {
 
 mainScene.gameOver = function(player){
   //this.remove(player);
-  player.hitPoints = 60;
+  player.hitPoints = basePlayerStat.maxHp;
   playerController.fighter = player;
   this.enemiesToSummon = [];
   for (var i = aIControllers.length - 1; i >= 0; i--) {
@@ -193,5 +202,12 @@ mainScene.summonEnemies = function(xOffset, delay) {
   }
 };
 
+mainScene.displayLevelUpScene = function() {
+  levelUpScene.active = true;
+  hudScene.active = false;
+  player.locked = true
+}
 
 sceneManager.add(mainScene);
+
+

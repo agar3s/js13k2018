@@ -9,7 +9,7 @@ function CharacterController(props) {
 function PlayerController(props) {
   var base = CharacterController(props);
   base.fighter.human = true;
-  base.fighter.hitPoints = 60;
+  base.fighter.hitPoints = basePlayerStat.maxHp;
   base.fighter.targetHit = 1;
   base.fighter.typeHit = 2;
   base.fighter.orientation = 1;
@@ -24,6 +24,7 @@ function PlayerController(props) {
 
   var controller = {
     update: function(time, dt) {
+      if(levelUpScene.active) return this.controlInterface(time, dt);
       if(mainScene.moving){
         this.fighter.speed = 0;
         return;
@@ -100,6 +101,32 @@ function PlayerController(props) {
       // jump
       if(keyMap&keys[inputs.JUMP]) {
         fighter.jump();
+      }
+    },
+    controlInterface: function(time, dt) {
+      if(keyMap&keys[inputs.RIGHT]) {
+        if(!this.previousStateKey.right){
+          this.previousStateKey.right = true;
+          levelUpScene.setOption(levelUpScene.indexOption+1);
+        }
+      } else {
+        this.previousStateKey.right = false;
+      }
+
+      if(keyMap&keys[inputs.LEFT]) {
+        if(!this.previousStateKey.left){
+          this.previousStateKey.left = true;
+          levelUpScene.setOption(levelUpScene.indexOption-1);
+        }
+      } else {
+        this.previousStateKey.left = false;
+      }
+
+      if((keyMap&keys[inputs.PUNCH]) || (keyMap&keys[inputs.KICK])) {
+        levelUpScene.applyStat();
+        levelUpScene.active = false;
+        hudScene.active = true;
+        player.locked = false;
       }
     }
   }

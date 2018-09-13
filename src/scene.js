@@ -14,6 +14,7 @@ var sceneManager = {
   },
   draw: function() {
     for (var i = 0; i < this.scenes.length; i++) {
+      this.scenes[i].predraw();
       this.scenes[i].draw();
     }
   }
@@ -31,7 +32,7 @@ function Scene (props) {
     create: function(){},
     add: function(gameObject) {
       t.children.push(gameObject);
-      if(gameObject.type==='character'){
+      if(gameObject.type==='character'||gameObject.type==='pickable'){
         itemsColliders[gameObject.id] = gameObject;
       }
     },
@@ -45,7 +46,10 @@ function Scene (props) {
     update: function(time, dt) {
       if(!t.active) return;
       for (var i = 0; i < t.children.length; i++) {
-        t.children[i].update(dt);
+        var gameObject = t.children[i]
+        if(gameObject.x + 24 > -this.x && gameObject.x < -this.x + 320){
+          gameObject.update(dt);
+        }
       }
       t.updateData(time, dt);
 
@@ -62,6 +66,7 @@ function Scene (props) {
         }
       }
     },
+    predraw: function(){},
     draw: function() {
       if(!t.active) return;
       graphics.save();

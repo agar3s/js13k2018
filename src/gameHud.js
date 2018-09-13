@@ -5,10 +5,10 @@ var enemyId = Text([250, 28, '']);
 
 hudScene.create = function() {
   var heroBar = GameObject([20,20]);
-  heroBar.barLength = 100;
+  heroBar.barLength = 80;
   heroBar.draw = function() {
     graphics.fillStyle = '#DFEFE2';
-    var length = 100*(player.hitPoints/30);
+    var length = 80*(player.hitPoints/30);
     if(length<0) return;
     graphics.fillRect(this.x, this.y, ~~length, 5);
   }
@@ -17,11 +17,11 @@ hudScene.create = function() {
   this.add(heroBar);
 
   var enemyBar = GameObject([300,20]);
-  enemyBar.barLength = 100;
+  enemyBar.barLength = 80;
   enemyBar.draw = function() {
     if (enemyPunched){
       graphics.fillStyle = enemyPunched.color;
-      var length = ~~(100*(enemyPunched.hitPoints/30));
+      var length = ~~(80*(enemyPunched.hitPoints/30));
       if(length<0) return;
       var start = this.x - length
       graphics.fillRect(start, this.y, length, 5);

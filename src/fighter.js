@@ -270,6 +270,10 @@ function Fighter(props) {
       if(this.locked) return false;
       if(this.statusIndex===18) return false;
       this.colliding = true;
+      if(this.human){
+        damage -= basePlayerStat.defense;
+        if(damage<=0) return;
+      }
 
       var impactOnY = (y - this.y)/this.pixelSize;
       var nextStatus = 0;
@@ -349,7 +353,26 @@ function Fighter(props) {
     },
     damage: function(target, y) {
       var orientation = this.x > target.x ? 1: 0;
-      return target.setDamage(this.damageToApply || 2, y, orientation);
+      var damage = this.damageToApply;
+      if(this.human){
+        damage += basePlayerStat.damage;
+      }
+      return target.setDamage(damage || 2, y, orientation);
+    },
+    pick: function(pickable) {
+      pickable.affectFighter(this);
+      mainScene.remove(pickable);
+    },
+    incrementHp: function(hp) {
+      this.hitPoints += hp;
+      if(this.human && this.hitPoints>basePlayerStat.maxHp){
+        this.hitPoints = basePlayerStat.maxHp;
+      }
+    },
+    resetHp: function(){
+      if(this.human){
+        this.hitPoints = basePlayerStat.maxHp;
+      }
     }
   };
   extendFunction(base, extended)

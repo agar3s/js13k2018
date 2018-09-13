@@ -24,6 +24,9 @@ function addPixelToCollisionMatrix(x, y, id, type) {
     var sprite = itemsColliders[data[0]];
     var kicker = itemsColliders[spriteHitId[0]];
 
+    if(kicker.type==='pickable'){
+      return sprite.pick(kicker);
+    }
     if(!kicker.damage(sprite, y)) return;
     if(player.id === sprite.id) {
       flash('#60004b');

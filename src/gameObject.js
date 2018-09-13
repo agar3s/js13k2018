@@ -60,8 +60,8 @@ function Sprite(props) {
       this.animation = animations[animationIndex]
     }
   }
-  extendFunction(base, extended)
-  return extended
+  extendFunction(base, extended);
+  return extended;
 }
 
 
